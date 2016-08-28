@@ -1,0 +1,17 @@
+[{
+    "modid": "tinkertoolleveling",
+    "name": "Tinkers Tool Leveling",
+    "description": "A small mod that gives your tools XP and awards extra modifiers on levelup",
+    "version": "${version}",
+    "mcversion": "${MCversion}",
+    "url": "https://github.com/SlimeKnights/TinkersToolLeveling",
+    "updateUrl": "",
+    "authorList": [
+      "boni"
+    ],
+    "credits": "",
+    "logoFile": "",
+    "screenshots": [],
+    "parent":"",
+    "dependencies": []
+}]

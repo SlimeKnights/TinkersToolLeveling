@@ -1,0 +1,8 @@
+{
+   "levelup": {
+     "category": "player",
+     "sounds": [
+       "entity.player.levelup"
+     ]
+   }
+}
