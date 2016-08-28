@@ -31,13 +31,7 @@ public class ModToolLeveling extends ModifierTrait {
 
   @Override
   public boolean isHidden() {
-    return false;
-  }
-
-  @Override
-  public String getTooltip(NBTTagCompound modifierTag, boolean detailed) {
-    ToolLevelNBT data = getLevelData(modifierTag);
-    return "XP: " + data.xp + " / " + getXpForLevelup(data.level);
+    return true;
   }
 
   @Override
@@ -85,7 +79,7 @@ public class ModToolLeveling extends ModifierTrait {
     ToolLevelNBT data = getLevelData(modifierTag);
     data.xp += amount;
 
-    int xpForLevelup = getXpForLevelup(data.level);
+    int xpForLevelup = getXpForLevelup(data.level, tool);
 
     boolean leveledUp = false;
     // check for levelup
@@ -114,11 +108,11 @@ public class ModToolLeveling extends ModifierTrait {
     }
   }
 
-  public int getXpForLevelup(int level) {
+  public int getXpForLevelup(int level, ItemStack tool) {
     if(level <= 1) {
-      return Config.getBaseXpForTool();
+      return Config.getBaseXpForTool(tool.getItem());
     }
-    return (int) ((float) getXpForLevelup(level - 1) * Config.getLevelMultiplier());
+    return (int) ((float) getXpForLevelup(level - 1, tool) * Config.getLevelMultiplier());
   }
 
   private ToolLevelNBT getLevelData(ItemStack itemStack) {

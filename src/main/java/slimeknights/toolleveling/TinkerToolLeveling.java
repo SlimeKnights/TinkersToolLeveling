@@ -28,6 +28,8 @@ public class TinkerToolLeveling {
 
   @EventHandler
   public void preInit(FMLPreInitializationEvent event) {
+    Config.load(event);
+
     CapabilityDamageXp.register();
     MinecraftForge.EVENT_BUS.register(slimeknights.toolleveling.EventHandler.INSTANCE);
     MinecraftForge.EVENT_BUS.register(EntityXpHandler.INSTANCE);

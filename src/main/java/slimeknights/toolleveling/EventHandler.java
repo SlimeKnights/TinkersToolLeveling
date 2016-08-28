@@ -17,7 +17,7 @@ public final class EventHandler {
     // set free modifiers
     NBTTagCompound toolTag = TagUtil.getToolTag(event.tag);
     int modifiers = toolTag.getInteger(Tags.FREE_MODIFIERS);
-    modifiers = Math.min(Config.newToolMinModifiers, modifiers);
+    modifiers = Math.min(Config.GENERAL.newToolMinModifiers, modifiers);
     modifiers = Math.max(0, modifiers);
     toolTag.setInteger(Tags.FREE_MODIFIERS, modifiers);
     TagUtil.setToolTag(event.tag, toolTag);
