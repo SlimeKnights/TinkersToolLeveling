@@ -7,8 +7,11 @@ import net.minecraftforge.fml.common.SidedProxy;
 import net.minecraftforge.fml.common.event.FMLInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPostInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
+import net.minecraftforge.fml.common.event.FMLServerStartedEvent;
+import net.minecraftforge.fml.common.event.FMLServerStartingEvent;
 
 import slimeknights.toolleveling.capability.CapabilityDamageXp;
+import slimeknights.toolleveling.debug.CommandLevelTool;
 
 @Mod(modid = TinkerToolLeveling.MODID,
     version = TinkerToolLeveling.VERSION,
@@ -21,7 +24,7 @@ public class TinkerToolLeveling {
   public static final String MODID = "tinkertoolleveling";
   public static final String VERSION = "${version}";
 
-  @SidedProxy(clientSide = "slimeknights.toolleveling.ClientProxy", serverSide = "slimeknights.toolleveling.CommonProxy")
+  @SidedProxy(clientSide = "slimeknights.toolleveling.CommonProxy", serverSide = "slimeknights.toolleveling.CommonProxy")
   public static CommonProxy proxy;
 
   public static ModToolLeveling modToolLeveling = new ModToolLeveling();
@@ -43,6 +46,11 @@ public class TinkerToolLeveling {
   @EventHandler
   public void postInit(FMLPostInitializationEvent event) {
 
+  }
+
+  @EventHandler
+  public void serverStart(FMLServerStartingEvent event) {
+    event.registerServerCommand(new CommandLevelTool());
   }
 
 }

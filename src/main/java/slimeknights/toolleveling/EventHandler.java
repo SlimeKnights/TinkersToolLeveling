@@ -1,11 +1,13 @@
 package slimeknights.toolleveling;
 
 import net.minecraft.nbt.NBTTagCompound;
+import net.minecraftforge.event.entity.player.ItemTooltipEvent;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 
 import slimeknights.tconstruct.library.events.TinkerToolEvent;
 import slimeknights.tconstruct.library.utils.TagUtil;
 import slimeknights.tconstruct.library.utils.Tags;
+import slimeknights.tconstruct.library.utils.TinkerUtil;
 
 public final class EventHandler {
 
@@ -25,6 +27,10 @@ public final class EventHandler {
     TinkerToolLeveling.modToolLeveling.apply(event.tag);
   }
 
+  @SubscribeEvent
+  public void onTooltip(ItemTooltipEvent event) {
+    Tooltips.addTooltips(event.getItemStack(), event.getToolTip());
+  }
 
   private EventHandler() {
   }

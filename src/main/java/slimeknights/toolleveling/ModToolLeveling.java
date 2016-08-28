@@ -51,8 +51,8 @@ public class ModToolLeveling extends ModifierTrait {
 
   @Override
   public void afterBlockBreak(ItemStack tool, World world, IBlockState state, BlockPos pos, EntityLivingBase player, boolean wasEffective) {
-    if(wasEffective) {
-      addXp(tool, 1);
+    if(wasEffective && player instanceof EntityPlayer) {
+      addXp(tool, 1, (EntityPlayer) player);
     }
   }
 
@@ -60,18 +60,19 @@ public class ModToolLeveling extends ModifierTrait {
   public void afterHit(ItemStack tool, EntityLivingBase player, EntityLivingBase target, float damageDealt, boolean wasCritical, boolean wasHit) {
     if(!target.getEntityWorld().isRemote && wasHit && player instanceof EntityPlayer) {
       // if we killed it the event for distributing xp was already fired and we just do it manually here
+      EntityPlayer entityPlayer = (EntityPlayer) player;
       if(!target.isEntityAlive()) {
-        addXp(tool, Math.round(damageDealt));
+        addXp(tool, Math.round(damageDealt), entityPlayer);
       }
       else if(target.hasCapability(CapabilityDamageXp.CAPABILITY, null)) {
-        target.getCapability(CapabilityDamageXp.CAPABILITY, null).addDamageFromTool(damageDealt, tool, (EntityPlayer) player);
+        target.getCapability(CapabilityDamageXp.CAPABILITY, null).addDamageFromTool(damageDealt, tool, entityPlayer);
       }
     }
   }
 
   /* XP Handling */
 
-  public void addXp(ItemStack tool, int amount) {
+  public void addXp(ItemStack tool, int amount, EntityPlayer player) {
     NBTTagList tagList = TagUtil.getModifiersTagList(tool);
     int index = TinkerUtil.getIndexInCompoundList(tagList, identifier);
     NBTTagCompound modifierTag = tagList.getCompoundTagAt(index);
@@ -96,7 +97,11 @@ public class ModToolLeveling extends ModifierTrait {
 
     if(leveledUp) {
       this.apply(tool);
-      TinkerToolLeveling.proxy.playLevelupDing();
+      if(!player.worldObj.isRemote) {
+        // for some reason the proxy is messed up. cba to fix now
+        TinkerToolLeveling.proxy.playLevelupDing(player);
+        TinkerToolLeveling.proxy.sendLevelUpMessage(data.level, tool, player);
+      }
       try {
         NBTTagCompound rootTag = TagUtil.getTagSafe(tool);
         ToolBuilder.rebuildTool(rootTag, (TinkersItem) tool.getItem());
