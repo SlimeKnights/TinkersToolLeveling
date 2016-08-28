@@ -12,7 +12,6 @@ import java.util.function.BiFunction;
 
 import ninja.leaping.configurate.ConfigurationNode;
 import ninja.leaping.configurate.ConfigurationOptions;
-import ninja.leaping.configurate.SimpleConfigurationNode;
 import ninja.leaping.configurate.commented.CommentedConfigurationNode;
 import ninja.leaping.configurate.hocon.HoconConfigurationLoader;
 import ninja.leaping.configurate.loader.ConfigurationLoader;
@@ -24,6 +23,7 @@ import ninja.leaping.configurate.objectmapping.serialize.TypeSerializers;
 import slimeknights.tconstruct.library.TinkerRegistry;
 import slimeknights.tconstruct.tools.TinkerTools;
 
+// todo: sync with server
 public class Config {
 
   @ConfigSerializable

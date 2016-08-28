@@ -8,7 +8,10 @@ import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
+import net.minecraftforge.common.MinecraftForge;
+import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 
+import slimeknights.tconstruct.library.events.TinkerToolEvent;
 import slimeknights.tconstruct.library.modifiers.ModifierAspect;
 import slimeknights.tconstruct.library.modifiers.ModifierTrait;
 import slimeknights.tconstruct.library.modifiers.TinkerGuiException;
@@ -27,6 +30,8 @@ public class ModToolLeveling extends ModifierTrait {
     aspects.clear();
     addAspects(new ModifierAspect.DataAspect(this),
                new ModifierAspect.SingleAspect(this));
+
+    MinecraftForge.EVENT_BUS.register(this);
   }
 
   @Override
@@ -68,6 +73,16 @@ public class ModToolLeveling extends ModifierTrait {
         target.getCapability(CapabilityDamageXp.CAPABILITY, null).addDamageFromTool(damageDealt, tool, entityPlayer);
       }
     }
+  }
+
+  @SubscribeEvent
+  public void onMattock(TinkerToolEvent.OnMattockHoe event) {
+    addXp(event.itemStack, 1, event.player);
+  }
+
+  @SubscribeEvent
+  public void onPath(TinkerToolEvent.OnShovelMakePath event) {
+    addXp(event.itemStack, 1, event.player);
   }
 
   /* XP Handling */
