@@ -8,8 +8,8 @@ import slimeknights.tconstruct.library.utils.TagUtil;
 import slimeknights.tconstruct.library.utils.Tags;
 
 public final class EventHandler {
-  public static EventHandler INSTANCE = new EventHandler();
 
+  public static EventHandler INSTANCE = new EventHandler();
 
 
   @SubscribeEvent
@@ -26,6 +26,6 @@ public final class EventHandler {
   }
 
 
-
-  private EventHandler() {}
+  private EventHandler() {
+  }
 }

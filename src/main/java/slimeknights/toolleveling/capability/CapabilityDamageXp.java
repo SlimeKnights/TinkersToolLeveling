@@ -25,8 +25,9 @@ public final class CapabilityDamageXp implements Capability.IStorage<IDamageXp> 
 
   @Override
   public void readNBT(Capability<IDamageXp> capability, IDamageXp instance, EnumFacing side, NBTBase nbt) {
-    instance.deserializeNBT((NBTTagList)nbt);
+    instance.deserializeNBT((NBTTagList) nbt);
   }
 
-  private CapabilityDamageXp() {}
+  private CapabilityDamageXp() {
+  }
 }

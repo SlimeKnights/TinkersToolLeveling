@@ -118,7 +118,7 @@ public class ModToolLeveling extends ModifierTrait {
     if(level <= 1) {
       return Config.getBaseXpForTool();
     }
-    return (int)((float)getXpForLevelup(level-1)*Config.getLevelMultiplier());
+    return (int) ((float) getXpForLevelup(level - 1) * Config.getLevelMultiplier());
   }
 
   private ToolLevelNBT getLevelData(ItemStack itemStack) {

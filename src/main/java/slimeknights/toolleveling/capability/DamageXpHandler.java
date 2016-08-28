@@ -6,11 +6,9 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
 import net.minecraft.util.EnumFacing;
-import net.minecraft.util.text.TextComponentString;
 import net.minecraft.world.World;
 import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.common.capabilities.ICapabilitySerializable;
-import net.minecraftforge.common.util.INBTSerializable;
 import net.minecraftforge.items.CapabilityItemHandler;
 import net.minecraftforge.items.IItemHandler;
 
@@ -61,11 +59,11 @@ public class DamageXpHandler implements IDamageXp, ICapabilitySerializable<NBTTa
 
   private void distributeXpForPlayer(World world, UUID playerUuid, Map<ItemStack, Float> damageMap) {
     Optional.ofNullable(world.getPlayerEntityByUUID(playerUuid))
-        .ifPresent(
-            player -> damageMap.forEach(
-                (itemStack, damage) -> distributeXpToPlayerForTool(player, itemStack, damage)
-            )
-        );
+            .ifPresent(
+                player -> damageMap.forEach(
+                    (itemStack, damage) -> distributeXpToPlayerForTool(player, itemStack, damage)
+                )
+            );
   }
 
   private void distributeXpToPlayerForTool(EntityPlayer player, ItemStack tool, float damage) {

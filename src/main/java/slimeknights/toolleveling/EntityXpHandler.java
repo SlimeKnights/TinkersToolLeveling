@@ -1,23 +1,16 @@
 package slimeknights.toolleveling;
 
 import net.minecraft.entity.EntityLivingBase;
-import net.minecraft.util.EnumFacing;
 import net.minecraft.util.ResourceLocation;
-import net.minecraftforge.common.capabilities.Capability;
-import net.minecraftforge.common.capabilities.ICapabilityProvider;
 import net.minecraftforge.event.AttachCapabilitiesEvent;
-import net.minecraftforge.event.entity.EntityEvent;
 import net.minecraftforge.event.entity.living.LivingDeathEvent;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
-
-import java.util.function.Predicate;
-
-import javax.annotation.Nullable;
 
 import slimeknights.toolleveling.capability.CapabilityDamageXp;
 import slimeknights.toolleveling.capability.DamageXpHandler;
 
 public class EntityXpHandler {
+
   public static final EntityXpHandler INSTANCE = new EntityXpHandler();
 
   private static final ResourceLocation CAPABILITY_KEY = new ResourceLocation(TinkerToolLeveling.MODID, "entityxp");
@@ -36,5 +29,6 @@ public class EntityXpHandler {
     }
   }
 
-  private EntityXpHandler() {}
+  private EntityXpHandler() {
+  }
 }
