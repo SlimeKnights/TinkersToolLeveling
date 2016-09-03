@@ -10,16 +10,16 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.function.BiFunction;
 
-import ninja.leaping.configurate.ConfigurationNode;
-import ninja.leaping.configurate.ConfigurationOptions;
-import ninja.leaping.configurate.commented.CommentedConfigurationNode;
-import ninja.leaping.configurate.hocon.HoconConfigurationLoader;
-import ninja.leaping.configurate.loader.ConfigurationLoader;
-import ninja.leaping.configurate.objectmapping.ObjectMappingException;
-import ninja.leaping.configurate.objectmapping.Setting;
-import ninja.leaping.configurate.objectmapping.serialize.ConfigSerializable;
-import ninja.leaping.configurate.objectmapping.serialize.TypeSerializer;
-import ninja.leaping.configurate.objectmapping.serialize.TypeSerializers;
+import slimeknights.mantle.configurate.ConfigurationNode;
+import slimeknights.mantle.configurate.ConfigurationOptions;
+import slimeknights.mantle.configurate.commented.CommentedConfigurationNode;
+import slimeknights.mantle.configurate.hocon.HoconConfigurationLoader;
+import slimeknights.mantle.configurate.loader.ConfigurationLoader;
+import slimeknights.mantle.configurate.objectmapping.ObjectMappingException;
+import slimeknights.mantle.configurate.objectmapping.Setting;
+import slimeknights.mantle.configurate.objectmapping.serialize.ConfigSerializable;
+import slimeknights.mantle.configurate.objectmapping.serialize.TypeSerializer;
+import slimeknights.mantle.configurate.objectmapping.serialize.TypeSerializers;
 import slimeknights.tconstruct.library.TinkerRegistry;
 import slimeknights.tconstruct.tools.TinkerTools;
 
