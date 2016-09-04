@@ -28,14 +28,18 @@ public class ModToolLeveling extends ModifierTrait {
     super("toolleveling", 0xffffff);
 
     aspects.clear();
-    addAspects(new ModifierAspect.DataAspect(this),
-               new ModifierAspect.SingleAspect(this));
+    addAspects(new ModifierAspect.DataAspect(this));
 
     MinecraftForge.EVENT_BUS.register(this);
   }
 
   @Override
   public boolean isHidden() {
+    return true;
+  }
+
+  @Override
+  public boolean canApplyCustom(ItemStack stack) {
     return true;
   }
 

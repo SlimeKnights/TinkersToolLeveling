@@ -1,11 +1,15 @@
 package slimeknights.toolleveling;
 
+import com.google.common.collect.Lists;
+
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraftforge.event.entity.player.ItemTooltipEvent;
-import net.minecraftforge.event.entity.player.UseHoeEvent;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 
+import java.util.List;
+
 import slimeknights.tconstruct.library.events.TinkerToolEvent;
+import slimeknights.tconstruct.library.materials.Material;
 import slimeknights.tconstruct.library.utils.TagUtil;
 import slimeknights.tconstruct.library.utils.Tags;
 import slimeknights.tconstruct.library.utils.TinkerUtil;
@@ -17,15 +21,27 @@ public final class EventHandler {
 
   @SubscribeEvent
   public void onToolBuild(TinkerToolEvent.OnItemBuilding event) {
+    // we build a dummy tool tag to get the base modifier amount, unchanged by traits
+    List<Material> materials = Lists.newArrayList();
+    for(int i = 0; i < event.tool.getRequiredComponents().size(); i++) {
+      materials.add(Material.UNKNOWN);
+    }
+    NBTTagCompound baseTag = event.tool.buildTag(materials);
+
+    int modifiers = baseTag.getInteger(Tags.FREE_MODIFIERS);
+    int modifierDelta = Config.GENERAL.newToolMinModifiers - modifiers;
+
     // set free modifiers
     NBTTagCompound toolTag = TagUtil.getToolTag(event.tag);
-    int modifiers = toolTag.getInteger(Tags.FREE_MODIFIERS);
-    modifiers = Math.min(Config.GENERAL.newToolMinModifiers, modifiers);
+    modifiers = toolTag.getInteger(Tags.FREE_MODIFIERS);
+    modifiers += modifierDelta;
     modifiers = Math.max(0, modifiers);
     toolTag.setInteger(Tags.FREE_MODIFIERS, modifiers);
     TagUtil.setToolTag(event.tag, toolTag);
 
-    TinkerToolLeveling.modToolLeveling.apply(event.tag);
+    if(!TinkerUtil.hasModifier(event.tag, TinkerToolLeveling.modToolLeveling.getModifierIdentifier())) {
+      TinkerToolLeveling.modToolLeveling.apply(event.tag);
+    }
   }
 
   @SubscribeEvent
