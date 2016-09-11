@@ -39,7 +39,7 @@ sourceCompatibility = 1.8
 targetCompatibility = 1.8
 
 group= "slimeknights"
-archivesBaseName = "toolleveling"
+archivesBaseName = "TinkerToolLeveling"
 
 // External properties
 ext.configFile = file "build.properties"
