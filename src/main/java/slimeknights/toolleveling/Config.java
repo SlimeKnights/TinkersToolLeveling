@@ -21,7 +21,8 @@ import slimeknights.mantle.configurate.objectmapping.serialize.ConfigSerializabl
 import slimeknights.mantle.configurate.objectmapping.serialize.TypeSerializer;
 import slimeknights.mantle.configurate.objectmapping.serialize.TypeSerializers;
 import slimeknights.tconstruct.library.TinkerRegistry;
-import slimeknights.tconstruct.tools.TinkerTools;
+
+import static slimeknights.tconstruct.tools.harvest.TinkerHarvestTools.*;
 
 // todo: sync with server
 public class Config {
@@ -94,9 +95,9 @@ public class Config {
     TinkerRegistry.getTools().forEach(toolCore -> defaults.put(toolCore, TOOLXP.defaultBaseXP));
 
     BiFunction<Item, Integer, Integer> remapping = (item, xp) -> xp * 9;
-    defaults.compute(TinkerTools.hammer, remapping);
-    defaults.compute(TinkerTools.excavator, remapping);
-    defaults.compute(TinkerTools.lumberAxe, remapping);
+    defaults.compute(hammer, remapping);
+    defaults.compute(excavator, remapping);
+    defaults.compute(lumberAxe, remapping);
 
     TOOLXP.baseXpForTool = new HashMap<>(defaults);
 
