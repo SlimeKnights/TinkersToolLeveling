@@ -1,13 +1,17 @@
 package slimeknights.toolleveling;
 
+import com.google.common.collect.ImmutableSet;
+import com.google.common.collect.Sets;
 import com.google.common.reflect.TypeToken;
 
 import net.minecraft.item.Item;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
 
+import java.io.File;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Set;
 import java.util.function.BiFunction;
 
 import slimeknights.mantle.configurate.ConfigurationNode;
@@ -72,7 +76,8 @@ public class Config {
       }
     });
 
-    ConfigurationLoader<CommentedConfigurationNode> loader = HoconConfigurationLoader.builder().setFile(event.getSuggestedConfigurationFile()).build();
+    File file = new File(event.getModConfigurationDirectory(), "TinkerToolLeveling.cfg");
+    ConfigurationLoader<CommentedConfigurationNode> loader = HoconConfigurationLoader.builder().setFile(file).build();
 
     try {
       CommentedConfigurationNode node = loader.load(ConfigurationOptions.defaults().setShouldCopyDefaults(true));
@@ -94,6 +99,15 @@ public class Config {
     ConfigurationNode xpNode = node.getNode("toolxp");
     TypeToken<ToolXP> xpTypeToken = TypeToken.of(ToolXP.class);
     TOOLXP = xpNode.getValue(xpTypeToken, TOOLXP);
+
+    // fill in defaults for missing big AOE tools
+    Set<Item> aoeTools = Sets.newHashSet(hammer, excavator, lumberAxe);
+    if(scythe != null) {
+      aoeTools.add(scythe);
+    }
+    TinkerRegistry.getTools().stream()
+                  .filter(aoeTools::contains)
+                  .forEach(tool -> TOOLXP.baseXpForTool.put(tool, TOOLXP.defaultBaseXP * 9));
 
     // fill in defaults for missing entries
     TinkerRegistry.getTools().stream()
