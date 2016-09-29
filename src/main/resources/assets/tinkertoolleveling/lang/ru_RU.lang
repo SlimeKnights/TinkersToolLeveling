@@ -1,0 +1,31 @@
+tooltip.level=Уровень
+tooltip.xp=XP
+
+tooltip.level.0=Новичок
+tooltip.level.1=Неуклюжий
+tooltip.level.2=Удобный
+tooltip.level.3=Привыкший
+tooltip.level.4=Адепт
+tooltip.level.5=Эксперт
+tooltip.level.6=Мастер
+tooltip.level.7=Гроссмейстер
+tooltip.level.8=Героический
+tooltip.level.9=Легендарный
+tooltip.level.10=Богоподобный
+tooltip.level.11=Удивительный
+tooltip.level.19=MoxieGrrl
+tooltip.level.42=boni
+tooltip.level.66=Jadedcat
+tooltip.level.99=Хакер
+
+message.levelup.2=Вы начинаете чувствовать себя комфортно, держа %s
+message.levelup.3=Теперь Вы привыкли к весу %s
+message.levelup.4=Вы стали умело держать %s
+message.levelup.5=Теперь Вы эксперт в использовании %s !
+message.levelup.6=Вы освоили %s!
+message.levelup.7=Вы стали гроссмейстером в использовании %s!
+message.levelup.8=Вы чувствуете, как Вы могли бы делать великие дела с Вашим(-ей) %s!
+message.levelup.9=Вы и Ваш(-а) %s живые легенды!
+message.levelup.10=Никто не может стоять между Вами и Вашим(-ей) %s!
+message.levelup.11=Ваш(-а) %s чистое удивление.
+message.levelup.generic=Ваш(-а) %s достиг(-ла) уровня %s
