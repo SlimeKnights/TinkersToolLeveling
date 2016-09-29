@@ -91,22 +91,15 @@ public class Config {
   }
 
   private static void loadToolXp(CommentedConfigurationNode node) throws ObjectMappingException {
-    Map<Item, Integer> defaults = new HashMap<>();
-    TinkerRegistry.getTools().forEach(toolCore -> defaults.put(toolCore, TOOLXP.defaultBaseXP));
-
-    BiFunction<Item, Integer, Integer> remapping = (item, xp) -> xp * 9;
-    defaults.compute(hammer, remapping);
-    defaults.compute(excavator, remapping);
-    defaults.compute(lumberAxe, remapping);
-
-    TOOLXP.baseXpForTool = new HashMap<>(defaults);
-
     ConfigurationNode xpNode = node.getNode("toolxp");
     TypeToken<ToolXP> xpTypeToken = TypeToken.of(ToolXP.class);
-    xpNode.getValue(xpTypeToken, TOOLXP);
+    TOOLXP = xpNode.getValue(xpTypeToken, TOOLXP);
 
-    defaults.putAll(TOOLXP.baseXpForTool);
-    TOOLXP.baseXpForTool = defaults;
+    // fill in defaults for missing entries
+    TinkerRegistry.getTools().stream()
+                  .filter(tool -> !TOOLXP.baseXpForTool.containsKey(tool))
+                  .forEach(tool -> TOOLXP.baseXpForTool.put(tool, TOOLXP.defaultBaseXP));
+
     xpNode.setValue(xpTypeToken, TOOLXP);
   }
 }
