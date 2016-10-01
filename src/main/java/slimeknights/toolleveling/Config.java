@@ -100,20 +100,23 @@ public class Config {
     TypeToken<ToolXP> xpTypeToken = TypeToken.of(ToolXP.class);
     TOOLXP = xpNode.getValue(xpTypeToken, TOOLXP);
 
-    // fill in defaults for missing big AOE tools
+    // fill in defaults for missing entries
+    TinkerRegistry.getTools().stream()
+                  .filter(tool -> !TOOLXP.baseXpForTool.containsKey(tool))
+                  .forEach(tool -> TOOLXP.baseXpForTool.put(tool, getDefaultXp(tool)));
+
+    xpNode.setValue(xpTypeToken, TOOLXP);
+  }
+
+  private static int getDefaultXp(Item item) {
     Set<Item> aoeTools = Sets.newHashSet(hammer, excavator, lumberAxe);
     if(scythe != null) {
       aoeTools.add(scythe);
     }
-    TinkerRegistry.getTools().stream()
-                  .filter(aoeTools::contains)
-                  .forEach(tool -> TOOLXP.baseXpForTool.put(tool, TOOLXP.defaultBaseXP * 9));
 
-    // fill in defaults for missing entries
-    TinkerRegistry.getTools().stream()
-                  .filter(tool -> !TOOLXP.baseXpForTool.containsKey(tool))
-                  .forEach(tool -> TOOLXP.baseXpForTool.put(tool, TOOLXP.defaultBaseXP));
-
-    xpNode.setValue(xpTypeToken, TOOLXP);
+    if(aoeTools.contains(item)) {
+      return 9*TOOLXP.defaultBaseXP;
+    }
+    return TOOLXP.defaultBaseXP;
   }
 }
