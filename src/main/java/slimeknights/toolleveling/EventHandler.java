@@ -13,6 +13,7 @@ import slimeknights.tconstruct.library.materials.Material;
 import slimeknights.tconstruct.library.utils.TagUtil;
 import slimeknights.tconstruct.library.utils.Tags;
 import slimeknights.tconstruct.library.utils.TinkerUtil;
+import slimeknights.toolleveling.config.Config;
 
 public final class EventHandler {
 
@@ -29,7 +30,7 @@ public final class EventHandler {
     NBTTagCompound baseTag = event.tool.buildTag(materials);
 
     int modifiers = baseTag.getInteger(Tags.FREE_MODIFIERS);
-    int modifierDelta = Config.GENERAL.newToolMinModifiers - modifiers;
+    int modifierDelta = Config.getStartingModifiers() - modifiers;
 
     // set free modifiers
     NBTTagCompound toolTag = TagUtil.getToolTag(event.tag);

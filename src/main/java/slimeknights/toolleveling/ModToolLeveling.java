@@ -21,6 +21,7 @@ import slimeknights.tconstruct.library.utils.Tags;
 import slimeknights.tconstruct.library.utils.TinkerUtil;
 import slimeknights.tconstruct.library.utils.ToolBuilder;
 import slimeknights.toolleveling.capability.CapabilityDamageXp;
+import slimeknights.toolleveling.config.Config;
 
 public class ModToolLeveling extends ModifierTrait {
 
