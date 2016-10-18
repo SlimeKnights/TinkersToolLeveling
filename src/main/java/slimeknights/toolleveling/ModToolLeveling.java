@@ -141,6 +141,11 @@ public class ModToolLeveling extends ModifierTrait {
     ToolLevelNBT data = getLevelData(modifierTag);
     data.xp += amount;
 
+    // is max level?
+    if(!Config.canLevelUp(data.level)) {
+      return;
+    }
+
     int xpForLevelup = getXpForLevelup(data.level, tool);
 
     boolean leveledUp = false;

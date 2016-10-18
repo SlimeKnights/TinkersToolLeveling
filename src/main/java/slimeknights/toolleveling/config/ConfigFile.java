@@ -65,6 +65,9 @@ public class ConfigFile extends AbstractConfigFile {
 
     @Setting(comment = "Reduces the amount of modifiers a newly build tool gets if the value is lower than the regular amount of modifiers the tool would have")
     public int newToolMinModifiers = 3;
+
+    @Setting(comment = "Maximum achievable levels. If set to 0 or lower there is no upper limit")
+    public int maximumLevels = -1;
   }
 
   @ConfigSerializable

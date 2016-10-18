@@ -30,4 +30,8 @@ public class Config extends AbstractConfig {
   public static int getStartingModifiers() {
     return INSTANCE.configFile.general.newToolMinModifiers;
   }
+
+  public static boolean canLevelUp(int currentLevel) {
+    return INSTANCE.configFile.general.maximumLevels > 0 && INSTANCE.configFile.general.maximumLevels >= currentLevel;
+  }
 }

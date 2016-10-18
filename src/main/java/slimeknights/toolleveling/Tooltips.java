@@ -10,6 +10,7 @@ import java.util.List;
 
 import slimeknights.tconstruct.library.client.CustomFontColor;
 import slimeknights.tconstruct.library.utils.TinkerUtil;
+import slimeknights.toolleveling.config.Config;
 
 // utility class for constructing tooltip
 public final class Tooltips {
@@ -21,7 +22,9 @@ public final class Tooltips {
     NBTTagCompound tag = TinkerUtil.getModifierTag(itemStack, TinkerToolLeveling.modToolLeveling.getModifierIdentifier());
     if(!tag.hasNoTags()) {
       ToolLevelNBT data = new ToolLevelNBT(tag);
-      tooltips.add(1, getXpToolTip(data.xp, TinkerToolLeveling.modToolLeveling.getXpForLevelup(data.level, itemStack)));
+      if(Config.canLevelUp(data.level)) {
+        tooltips.add(1, getXpToolTip(data.xp, TinkerToolLeveling.modToolLeveling.getXpForLevelup(data.level, itemStack)));
+      }
       tooltips.add(1, getLevelTooltip(data.level));
     }
   }
