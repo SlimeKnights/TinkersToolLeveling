@@ -9,6 +9,9 @@ import net.minecraft.nbt.NBTTagList;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import net.minecraftforge.common.MinecraftForge;
+import net.minecraftforge.event.entity.living.LivingAttackEvent;
+import net.minecraftforge.event.entity.living.LivingHurtEvent;
+import net.minecraftforge.fml.common.eventhandler.EventPriority;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 
 import slimeknights.tconstruct.library.events.TinkerToolEvent;
@@ -20,6 +23,8 @@ import slimeknights.tconstruct.library.utils.TagUtil;
 import slimeknights.tconstruct.library.utils.Tags;
 import slimeknights.tconstruct.library.utils.TinkerUtil;
 import slimeknights.tconstruct.library.utils.ToolBuilder;
+import slimeknights.tconstruct.library.utils.ToolHelper;
+import slimeknights.tconstruct.tools.melee.TinkerMeleeWeapons;
 import slimeknights.toolleveling.capability.CapabilityDamageXp;
 import slimeknights.toolleveling.config.Config;
 
@@ -80,6 +85,14 @@ public class ModToolLeveling extends ModifierTrait {
     }
   }
 
+  @Override
+  public void onBlock(ItemStack tool, EntityPlayer player, LivingHurtEvent event) {
+    if(player != null && !player.worldObj.isRemote && player.getActiveItemStack() == tool) {
+      int xp = Math.round(event.getAmount());
+      addXp(tool, xp, player);
+    }
+  }
+
   @SubscribeEvent
   public void onMattock(TinkerToolEvent.OnMattockHoe event) {
     addXp(event.itemStack, 1, event.player);
@@ -88,6 +101,34 @@ public class ModToolLeveling extends ModifierTrait {
   @SubscribeEvent
   public void onPath(TinkerToolEvent.OnShovelMakePath event) {
     addXp(event.itemStack, 1, event.player);
+  }
+
+  @SubscribeEvent(priority = EventPriority.LOWEST, receiveCanceled = true)
+  public void onLivingHurt(LivingAttackEvent event) {
+    // if it's cancelled it got handled by the battlesign (or something else. but it's a prerequisite.)
+    if(!event.isCanceled()) {
+      return;
+    }
+    if(event.getSource().isUnblockable() || !event.getSource().isProjectile() || event.getSource().getSourceOfDamage() == null) {
+      return;
+    }
+    // hit entity is a player?
+    if(!(event.getEntity() instanceof EntityPlayer)) {
+      return;
+    }
+    EntityPlayer player = (EntityPlayer) event.getEntity();
+    // needs to be blocking with a battlesign
+    if(!player.isActiveItemStackBlocking() || player.getActiveItemStack().getItem() != TinkerMeleeWeapons.battleSign) {
+      return;
+    }
+    // broken battlesign.
+    if(ToolHelper.isBroken(player.getActiveItemStack())) {
+      return;
+    }
+
+    // at this point we duplicated all the logic if the battlesign should reflect a projectile.. bleh.
+    int xp = Math.max(1, Math.round(event.getAmount()));
+    addXp(player.getActiveItemStack(), xp, player);
   }
 
   /* XP Handling */
