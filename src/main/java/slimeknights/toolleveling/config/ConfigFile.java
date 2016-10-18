@@ -22,6 +22,8 @@ import static slimeknights.tconstruct.tools.harvest.TinkerHarvestTools.scythe;
 @ConfigSerializable
 public class ConfigFile extends AbstractConfigFile {
 
+  private final static int CONFIG_VERSION = 1;
+
   @Setting
   General general = new General();
   @Setting
@@ -32,6 +34,11 @@ public class ConfigFile extends AbstractConfigFile {
 
   public ConfigFile(File file) {
     super(file);
+  }
+
+  @Override
+  public int getConfigVersion() {
+    return CONFIG_VERSION;
   }
 
   @Override
