@@ -42,7 +42,7 @@ public class TinkerToolLeveling {
   public void preInit(FMLPreInitializationEvent event) {
     Config.INSTANCE.load(new File(event.getModConfigurationDirectory(), "TinkerToolLeveling.cfg"));
 
-    networkWrapper = new NetworkWrapper(MODID + ":sync");
+    networkWrapper = new NetworkWrapper("tinkerlevel" + ":sync");
     networkWrapper.registerPacketClient(ConfigSyncPacket.class);
 
     CapabilityDamageXp.register();
