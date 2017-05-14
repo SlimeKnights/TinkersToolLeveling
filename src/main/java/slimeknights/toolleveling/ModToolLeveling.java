@@ -87,7 +87,7 @@ public class ModToolLeveling extends ModifierTrait {
 
   @Override
   public void onBlock(ItemStack tool, EntityPlayer player, LivingHurtEvent event) {
-    if(player != null && !player.worldObj.isRemote && player.getActiveItemStack() == tool) {
+    if(player != null && !player.world.isRemote && player.getActiveItemStack() == tool) {
       int xp = Math.round(event.getAmount());
       addXp(tool, xp, player);
     }
@@ -163,7 +163,7 @@ public class ModToolLeveling extends ModifierTrait {
 
     if(leveledUp) {
       this.apply(tool);
-      if(!player.worldObj.isRemote) {
+      if(!player.world.isRemote) {
         // for some reason the proxy is messed up. cba to fix now
         TinkerToolLeveling.proxy.playLevelupDing(player);
         TinkerToolLeveling.proxy.sendLevelUpMessage(data.level, tool, player);
