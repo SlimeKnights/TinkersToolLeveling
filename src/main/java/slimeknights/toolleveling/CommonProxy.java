@@ -29,8 +29,7 @@ public class CommonProxy {
     else {
       textComponent = new TextComponentString(TextFormatting.DARK_AQUA + I18n.translateToLocalFormatted("message.levelup.generic", itemStack.getDisplayName() + TextFormatting.DARK_AQUA, Tooltips.getLevelString(level)));
     }
-
-    player.addChatMessage(textComponent);
+    player.sendStatusMessage(textComponent, false);
   }
 
   private static SoundEvent registerSound(String name) {

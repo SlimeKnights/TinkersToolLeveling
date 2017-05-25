@@ -20,12 +20,12 @@ public class CommandLevelTool extends CommandBase {
   }
 
   @Override
-  public String getCommandName() {
+  public String getName() {
     return "levelupTool";
   }
 
   @Override
-  public String getCommandUsage(ICommandSender sender) {
+  public String getUsage(ICommandSender sender) {
     return "/levelupTool while holding a tinker tool in your hand";
   }
 

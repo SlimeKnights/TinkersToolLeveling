@@ -140,8 +140,8 @@ public class DamageXpHandler implements IDamageXp, ICapabilitySerializable<NBTTa
   }
 
   private void deserializeTagToMapEntry(Map<ItemStack, Float> damageMap, NBTTagCompound tag) {
-    ItemStack stack = ItemStack.loadItemStackFromNBT(tag.getCompoundTag(TAG_ITEM));
-    if(stack != null) {
+    ItemStack stack = new ItemStack(tag.getCompoundTag(TAG_ITEM));
+    if(!stack.isEmpty()) {
       damageMap.put(stack, tag.getFloat(TAG_DAMAGE));
     }
   }
