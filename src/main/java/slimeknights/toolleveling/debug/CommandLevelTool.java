@@ -12,41 +12,43 @@ import slimeknights.tconstruct.library.utils.TinkerUtil;
 import slimeknights.toolleveling.TinkerToolLeveling;
 import slimeknights.toolleveling.ToolLevelNBT;
 
-public class CommandLevelTool extends CommandBase {
+import javax.annotation.Nonnull;
 
-  @Override
-  public int getRequiredPermissionLevel() {
-    return 4;
-  }
+public class CommandLevelTool extends CommandBase{
 
-  @Override
-  public String getName() {
-    return "levelupTool";
-  }
-
-  @Override
-  public String getUsage(ICommandSender sender) {
-    return "/levelupTool while holding a tinker tool in your hand";
-  }
-
-  @Override
-  public void execute(MinecraftServer server, ICommandSender sender, String[] args) throws CommandException {
-    EntityPlayer player = getCommandSenderAsPlayer(sender);
-    ItemStack itemStack = player.getHeldItemMainhand();
-
-    if(itemStack != null && itemStack.getItem() instanceof ToolCore) {
-      int xp;
-      if(args.length > 0) {
-        xp = parseInt(args[0]);
-      }
-      else {
-        ToolLevelNBT data = new ToolLevelNBT(TinkerUtil.getModifierTag(itemStack, TinkerToolLeveling.modToolLeveling.getModifierIdentifier()));
-        xp = TinkerToolLeveling.modToolLeveling.getXpForLevelup(data.level, itemStack);
-      }
-      TinkerToolLeveling.modToolLeveling.addXp(itemStack, xp, player);
+    @Override
+    public int getRequiredPermissionLevel(){
+        return 4;
     }
-    else {
-      throw new CommandException("No tinker tool in hand");
+
+    @Nonnull
+    @Override
+    public String getName(){
+        return "levelupTool";
     }
-  }
+
+    @Nonnull
+    @Override
+    public String getUsage(ICommandSender sender){
+        return "/levelupTool while holding a tinker tool in your hand";
+    }
+
+    @Override
+    public void execute(@Nonnull MinecraftServer server, @Nonnull ICommandSender sender, @Nonnull String[] args) throws CommandException{
+        EntityPlayer player = getCommandSenderAsPlayer(sender);
+        ItemStack itemStack = player.getHeldItemMainhand();
+
+        if(itemStack.getItem() instanceof ToolCore){
+            int xp;
+            if(args.length > 0){
+                xp = parseInt(args[0]);
+            }else{
+                ToolLevelNBT data = new ToolLevelNBT(TinkerUtil.getModifierTag(itemStack, TinkerToolLeveling.modToolLeveling.getModifierIdentifier()));
+                xp = TinkerToolLeveling.modToolLeveling.getXpForLevelup(data.level, itemStack);
+            }
+            TinkerToolLeveling.modToolLeveling.addXp(itemStack, xp, player);
+        }else{
+            throw new CommandException("No tinker tool in hand");
+        }
+    }
 }
