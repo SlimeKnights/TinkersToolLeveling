@@ -1,37 +1,129 @@
 package slimeknights.toolleveling.config;
 
+import com.google.common.collect.Lists;
 import net.minecraft.item.Item;
+import net.minecraftforge.common.MinecraftForge;
+import net.minecraftforge.common.config.ConfigCategory;
+import net.minecraftforge.common.config.Configuration;
+import net.minecraftforge.common.config.Property;
+import net.minecraftforge.fml.client.event.ConfigChangedEvent;
+import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
+import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
+import org.apache.logging.log4j.Logger;
+import slimeknights.tconstruct.library.Util;
+import slimeknights.mantle.pulsar.config.ForgeCFG;
 
-import java.io.File;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
-import slimeknights.mantle.config.AbstractConfig;
+import static slimeknights.toolleveling.TinkerToolLeveling.MODID;
 
-public class Config extends AbstractConfig {
+public class Config{
+    //public static ForgeCFG pulseConfig = new ForgeCFG("TinkersToolLeveling", "Tinkers' Tool Leveling Config");
+    public static Config instance = new Config();
+    public static Logger log = Util.getLogger("Config");
 
-  public static Config INSTANCE = new Config();
+    private Config(){}
 
-  public ConfigFile configFile;
+    // General
+    public static int newToolMinModifiers = 3;
+    public static int maximumLevels = -1;
 
-  public void load(File file) {
-    ConfigFile.init();
+    // ToolXP
+    public static int defaultBaseXP = 500;
+    public static Map<Item, Integer> baseXpForTool = new HashMap<>();
+    public static double levelMultiplier = 2f;
 
-    configFile = this.load(new ConfigFile(file), ConfigFile.class);
-  }
+    static Configuration configFile;
 
-  public static int getBaseXpForTool(Item item) {
-    ConfigFile.ToolXP toolXP = INSTANCE.configFile.toolxp;
-    return toolXP.baseXpForTool.getOrDefault(item, toolXP.defaultBaseXP);
-  }
+    static ConfigCategory General;
+    static ConfigCategory ToolXP;
 
-  public static float getLevelMultiplier() {
-    return INSTANCE.configFile.toolxp.levelMultiplier;
-  }
+    public static void load(FMLPreInitializationEvent event){
+        configFile = new Configuration(event.getSuggestedConfigurationFile(), "0.1", false);
 
-  public static int getStartingModifiers() {
-    return INSTANCE.configFile.general.newToolMinModifiers;
-  }
+        MinecraftForge.EVENT_BUS.register(instance);
 
-  public static boolean canLevelUp(int currentLevel) {
-    return INSTANCE.configFile.general.maximumLevels < 0 || INSTANCE.configFile.general.maximumLevels >= currentLevel;
-  }
+        syncConfig();
+    }
+
+    @SubscribeEvent
+    public void update(ConfigChangedEvent.OnConfigChangedEvent event){
+        if(event.getModID().equals(MODID)){
+            syncConfig();
+        }
+    }
+
+    public static boolean syncConfig(){
+        Property property;
+
+        // General
+        {
+            String category = "general";
+            General = configFile.getCategory(category);
+            List<String> propOrder = Lists.newArrayList();
+
+            property = configFile.get(category, "newToolMinModifiers", newToolMinModifiers);
+            property.setComment("Reduces the amount of modifiers a newly build tool gets if the value is lower than the regular amount of modifiers the tool would have");
+            newToolMinModifiers = property.getInt();
+            propOrder.add(property.getName());
+
+            property = configFile.get(category, "maximumLevels", maximumLevels);
+            property.setComment("Maximum achievable levels. If set to 0 or lower there is no upper limit");
+            maximumLevels = property.getInt();
+            propOrder.add(property.getName());
+
+            General.setPropertyOrder(propOrder);
+        }
+
+        // ToolXP
+        {
+            String category = "toolxp";
+            ToolXP = configFile.getCategory(category);
+            List<String> propOrder = Lists.newArrayList();
+
+            property = configFile.get(category, "defaultBaseXP", defaultBaseXP);
+            property.setComment("Base XP used when no more specific entry is present for the tool");
+            defaultBaseXP = property.getInt();
+            propOrder.add(property.getName());
+
+            /*
+            public static Map<Item, Integer> baseXpForTool = new HashMap<>();
+             */
+
+            //property = configFile.get(category, "baseXpForTool", baseXpForTool);
+
+            property = configFile.get(category, "levelMultiplier", levelMultiplier);
+            property.setComment("");
+            levelMultiplier = property.getDouble();
+            propOrder.add(property.getName());
+
+            ToolXP.setPropertyOrder(propOrder);
+        }
+
+        boolean changed = false;
+        if(configFile.hasChanged()){
+            configFile.save();
+            changed = true;
+        }
+
+        /*if(pulseConfig.getConfig().hasChanged()){
+            pulseConfig.flush();
+            changed = true;
+        }*/
+
+        return changed;
+    }
+
+    // TODO
+    public static int getBaseXpForTool(Item item) {
+        //ConfigFile.ToolXP toolXP = INSTANCE.configFile.toolxp;
+        //return toolXP.baseXpForTool.getOrDefault(item, toolXP.defaultBaseXP);
+        return defaultBaseXP;
+    }
+
+    public static boolean canLevelUp(int currentLevel) {
+        return maximumLevels < 0 || maximumLevels >= currentLevel;
+    }
 }
