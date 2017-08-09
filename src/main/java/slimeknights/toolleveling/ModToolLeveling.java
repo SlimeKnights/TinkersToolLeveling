@@ -109,7 +109,7 @@ public class ModToolLeveling extends ModifierTrait {
     if(!event.isCanceled()) {
       return;
     }
-    if(event.getSource().isUnblockable() || !event.getSource().isProjectile() || event.getSource().getSourceOfDamage() == null) {
+    if(event.getSource().isUnblockable() || !event.getSource().isProjectile() || event.getSource().getImmediateSource() == null) {
       return;
     }
     // hit entity is a player?
@@ -184,10 +184,6 @@ public class ModToolLeveling extends ModifierTrait {
       return Config.getBaseXpForTool(tool.getItem());
     }
     return (int) ((float) getXpForLevelup(level - 1, tool) * Config.getLevelMultiplier());
-  }
-
-  private ToolLevelNBT getLevelData(ItemStack itemStack) {
-    return getLevelData(TinkerUtil.getModifierTag(itemStack, getModifierIdentifier()));
   }
 
   private ToolLevelNBT getLevelData(NBTTagCompound modifierNBT) {

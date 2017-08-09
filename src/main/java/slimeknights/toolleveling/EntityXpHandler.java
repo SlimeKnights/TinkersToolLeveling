@@ -1,5 +1,6 @@
 package slimeknights.toolleveling;
 
+import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.event.AttachCapabilitiesEvent;
@@ -16,8 +17,8 @@ public class EntityXpHandler {
   private static final ResourceLocation CAPABILITY_KEY = new ResourceLocation(TinkerToolLeveling.MODID, "entityxp");
 
   @SubscribeEvent
-  public void onCapabilityAttach(AttachCapabilitiesEvent.Entity event) {
-    if(event.getEntity() instanceof EntityLivingBase && event.getEntity().isEntityAlive()) {
+  public void onCapabilityAttach(AttachCapabilitiesEvent<Entity> event) {
+    if(event.getObject() instanceof EntityLivingBase && event.getObject().isEntityAlive()) {
       event.addCapability(CAPABILITY_KEY, new DamageXpHandler());
     }
   }

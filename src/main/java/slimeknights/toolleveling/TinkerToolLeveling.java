@@ -9,8 +9,6 @@ import net.minecraftforge.fml.common.event.FMLPostInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLServerStartingEvent;
 
-import java.io.File;
-
 import slimeknights.mantle.network.NetworkWrapper;
 import slimeknights.toolleveling.capability.CapabilityDamageXp;
 import slimeknights.toolleveling.config.Config;
@@ -21,10 +19,10 @@ import slimeknights.toolleveling.debug.CommandLevelTool;
 @Mod(modid = TinkerToolLeveling.MODID,
     version = TinkerToolLeveling.VERSION,
     name = "TinkerToolLeveling",
-    dependencies = "required-after:forge@[13.20.0.2296,);"
-                   + "required-after:mantle@[1.11.2-1.2.0,);"
-                   + "required-after:tconstruct@[1.11.2-2.7.0,)",
-    acceptedMinecraftVersions = "1.11.2"
+    dependencies = "required-after:forge@[14.21.1.2410,);"
+                 + "required-after:mantle@[1.12-1.3.1,);"
+                 + "required-after:tconstruct@[1.12-2.7.0,)",
+    acceptedMinecraftVersions = "1.12"
 )
 public class TinkerToolLeveling {
 
@@ -40,7 +38,7 @@ public class TinkerToolLeveling {
 
   @EventHandler
   public void preInit(FMLPreInitializationEvent event) {
-    Config.INSTANCE.load(new File(event.getModConfigurationDirectory(), "TinkerToolLeveling.cfg"));
+    Config.load(event);
 
     networkWrapper = new NetworkWrapper("tinkerlevel" + ":sync");
     networkWrapper.registerPacketClient(ConfigSyncPacket.class);
@@ -54,6 +52,9 @@ public class TinkerToolLeveling {
 
   @EventHandler
   public void init(FMLInitializationEvent event) {
+    /* Need this here, because preInit doesn't guarantee that TTL will
+     * be called after TC. If not, the list of tools is empty.         */
+    Config.syncConfig();
   }
 
   @EventHandler
