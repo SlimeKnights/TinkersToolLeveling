@@ -13,7 +13,7 @@ import slimeknights.tconstruct.library.utils.TinkerUtil;
 import slimeknights.toolleveling.config.Config;
 
 // utility class for constructing tooltip
-public final class Tooltips {
+final class Tooltips {
 
   private Tooltips() {
   } // non-instantiable
@@ -65,13 +65,13 @@ public final class Tooltips {
     }
 
     // get the modulo'd string
-    String str = I18n.translateToLocal("tooltip.level." + (level % i));
+    StringBuilder str = new StringBuilder(I18n.translateToLocal("tooltip.level." + (level % i)));
     // and add +s!
     for(int j = level / i; j > 0; j--) {
-      str += '+';
+      str.append('+');
     }
 
-    return str;
+    return str.toString();
   }
 
   private static String getLevelColor(int level) {

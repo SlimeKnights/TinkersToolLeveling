@@ -10,7 +10,7 @@ import net.minecraftforge.common.capabilities.CapabilityManager;
 public final class CapabilityDamageXp implements Capability.IStorage<IDamageXp> {
 
   @CapabilityInject(IDamageXp.class)
-  public static Capability<IDamageXp> CAPABILITY = null;
+  public static final Capability<IDamageXp> CAPABILITY = null;
 
   private static final CapabilityDamageXp INSTANCE = new CapabilityDamageXp();
 

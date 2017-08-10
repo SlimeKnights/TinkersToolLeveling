@@ -24,10 +24,10 @@ import slimeknights.toolleveling.TinkerToolLeveling;
 
 public class DamageXpHandler implements IDamageXp, ICapabilitySerializable<NBTTagList> {
 
-  private static String TAG_PLAYER_UUID = "player_uuid";
-  private static String TAG_DAMAGE_LIST = "damage_data";
-  private static String TAG_ITEM = "item";
-  private static String TAG_DAMAGE = "damage";
+  private static final String TAG_PLAYER_UUID = "player_uuid";
+  private static final String TAG_DAMAGE_LIST = "damage_data";
+  private static final String TAG_ITEM = "item";
+  private static final String TAG_DAMAGE = "damage";
 
   private Map<UUID, Map<ItemStack, Float>> playerToDamageMap = new HashMap<>();
 
@@ -71,10 +71,12 @@ public class DamageXpHandler implements IDamageXp, ICapabilitySerializable<NBTTa
       IItemHandler itemHandler = player.getCapability(CapabilityItemHandler.ITEM_HANDLER_CAPABILITY, null);
 
       // check for identity. should work in most cases because the entity was killed without loading/unloading
-      for(int i = 0; i < itemHandler.getSlots(); i++) {
-        if(itemHandler.getStackInSlot(i) == tool) {
-          TinkerToolLeveling.modToolLeveling.addXp(tool, Math.round(damage), player);
-          return;
+      if (itemHandler != null) {
+        for(int i = 0; i < itemHandler.getSlots(); i++) {
+          if(itemHandler.getStackInSlot(i) == tool) {
+            TinkerToolLeveling.modToolLeveling.addXp(tool, Math.round(damage), player);
+            return;
+          }
         }
       }
 

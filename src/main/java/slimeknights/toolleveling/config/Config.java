@@ -25,7 +25,7 @@ import static slimeknights.tconstruct.tools.harvest.TinkerHarvestTools.scythe;
 
 public class Config extends AbstractConfig {
 
-  public static Config INSTANCE = new Config();
+  public static final Config INSTANCE = new Config();
 
 // General
   private int                newToolMinModifiers =   3;
@@ -33,13 +33,13 @@ public class Config extends AbstractConfig {
   // ToolXP
   private int                defaultBaseXP       = 500;
   private float              levelMultiplier     =   2f;
-  private Map<Item, Integer> baseXpForTool       = new HashMap<>();
+  private final Map<Item, Integer> baseXpForTool = new HashMap<>();
 
   /* Config File */
-  static Configuration  configFile;
-  static ConfigCategory General;
-  static ConfigCategory ToolXPbase;
-  static ConfigCategory ToolXPspecific;
+  private static Configuration  configFile;
+  private static ConfigCategory General;
+  private static ConfigCategory ToolXPbase;
+  private static ConfigCategory ToolXPspecific;
 
   public static void load(FMLPreInitializationEvent event) {
     configFile = new Configuration(event.getSuggestedConfigurationFile(), "2", false);
@@ -97,7 +97,7 @@ public class Config extends AbstractConfig {
       ToolXPspecific = configFile.getCategory(cat);
       ToolXPspecific.setComment("Tool specific base XP.");
 
-      TinkerRegistry.getTools().stream().forEach(tool -> {
+      TinkerRegistry.getTools().forEach(tool -> {
           Property property = configFile.get(cat, tool.getIdentifier(), getDefaultXp(tool));
           INSTANCE.baseXpForTool.put(tool, property.getInt());
           propOrder.add(property.getName());
@@ -132,7 +132,7 @@ public class Config extends AbstractConfig {
   }
 
   private static int getDefaultXp(Item item) {
-    HashSet<Item> aoeTools = Sets.newHashSet((Item)hammer, (Item)excavator, (Item)lumberAxe);
+    HashSet<Item> aoeTools = Sets.newHashSet(hammer, excavator, lumberAxe);
     if(scythe != null) {
       aoeTools.add(scythe);
     }

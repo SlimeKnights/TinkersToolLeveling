@@ -1,6 +1,5 @@
 package slimeknights.toolleveling;
 
-import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 
 import slimeknights.tconstruct.library.modifiers.ModifierNBT;
@@ -29,13 +28,5 @@ public class ToolLevelNBT extends ModifierNBT {
     super.write(tag);
     tag.setInteger(TAG_XP, xp);
     tag.setInteger(TAG_BONUS_MODIFIERS, bonusModifiers);
-  }
-
-  public static void get(ItemStack tool) {
-
-  }
-
-  public void save(ItemStack tool) {
-
   }
 }

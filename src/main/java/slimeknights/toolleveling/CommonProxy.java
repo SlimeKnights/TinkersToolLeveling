@@ -18,7 +18,7 @@ public class CommonProxy {
 
   private static final List<SoundEvent> sounds = new ArrayList<>();
 
-  SoundEvent SOUND_LEVELUP = registerSound("levelup");
+  private static final SoundEvent SOUND_LEVELUP = registerSound();
 
   public void playLevelupDing(EntityPlayer player) {
     Sounds.PlaySoundForPlayer(player, SOUND_LEVELUP, 1f, 1f);
@@ -37,8 +37,8 @@ public class CommonProxy {
     player.sendStatusMessage(textComponent, false);
   }
 
-  private static SoundEvent registerSound(String name) {
-    ResourceLocation location = new ResourceLocation(TinkerToolLeveling.MODID, name);
+  private static SoundEvent registerSound() {
+    ResourceLocation location = new ResourceLocation(TinkerToolLeveling.MODID, "levelup");
     SoundEvent event = new SoundEvent(location);
     event.setRegistryName(location);
     sounds.add(event);

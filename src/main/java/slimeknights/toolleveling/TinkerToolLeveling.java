@@ -17,12 +17,7 @@ import slimeknights.toolleveling.config.ConfigSyncPacket;
 import slimeknights.toolleveling.debug.CommandLevelTool;
 
 @Mod(modid = TinkerToolLeveling.MODID,
-    version = TinkerToolLeveling.VERSION,
-    name = "TinkerToolLeveling",
-    dependencies = "required-after:forge@[14.21.1.2410,);"
-                 + "required-after:mantle@[1.12-1.3.1,);"
-                 + "required-after:tconstruct@[1.12-2.7.0,)",
-    acceptedMinecraftVersions = "1.12"
+    version = TinkerToolLeveling.VERSION
 )
 public class TinkerToolLeveling {
 
@@ -34,7 +29,7 @@ public class TinkerToolLeveling {
 
   public static NetworkWrapper networkWrapper;
 
-  public static ModToolLeveling modToolLeveling = new ModToolLeveling();
+  public static final ModToolLeveling modToolLeveling = new ModToolLeveling();
 
   @EventHandler
   public void preInit(FMLPreInitializationEvent event) {

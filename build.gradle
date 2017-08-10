@@ -3,6 +3,8 @@
  * Master build file
  */
 
+import org.codehaus.groovy.runtime.GStringImpl
+
 buildscript {
     repositories {
         mavenCentral()
@@ -72,10 +74,10 @@ task buildInfo {
 }
 ext.artifact_version = 'NFG'
 if (System.getenv().ARTIFACT_VERSION == null) {
-    artifact_version = "${config.mod_version}.${project.buildInfo.buildNum}"
+    artifact_version = "${config.mod_version}.${project.buildInfo.buildNum}" as GStringImpl
 }
 if (System.getenv().ARTIFACT_VERSION != null) {
-    artifact_version = "${system.getenv().ARTIFACT_VERSION}"
+    artifact_version = "${system.getenv().ARTIFACT_VERSION}" as GStringImpl
 }
 
 version = "${config.minecraft_version}-${artifact_version}"
@@ -134,18 +136,18 @@ artifacts {
 
 // verify the properties exist.. or initialize.
 if (!project.hasProperty("keystore_location")) // keystore location
-    ext.keystore_location = ".";
+    ext.keystore_location = "."
     
 if (!project.hasProperty("keystore_user_alias")) // keystore user alias
-    ext.keystore_user_alias = "";
+    ext.keystore_user_alias = ""
 if (!project.hasProperty("sftp_username"))
-    ext.sftp_username = "";
+    ext.sftp_username = ""
 if (!project.hasProperty("sftp_key"))
-    ext.sftp_key = "";
+    ext.sftp_key = ""
 if (!project.hasProperty("keystore_user_password")) // keystore user pass
-    ext.keystore_user_password = "";
+    ext.keystore_user_password = ""
 if (System.getenv().KSK_PW != null)
-	ext.keystore_user_password =System.getenv().KSK_PW;
+	ext.keystore_user_password =System.getenv().KSK_PW
 
 
 task("uploadJars", dependsOn:"build") {
@@ -158,7 +160,7 @@ task("uploadJars", dependsOn:"build") {
             repositories {
 		    	if(project.hasProperty("local_maven"))
 			    {
-                    mavenDeployer {
+                    repositories.mavenDeployer {
                         repository(url: "file://${local_maven}")
 				    }
                 }
@@ -179,10 +181,10 @@ task signUniversal(type: SignJar, dependsOn: 'jar') {
         project.hasProperty('jarsigner')
     }
 
-    def jarsigner = [:];
+    def jarsigner = [:]
 
     if (project.hasProperty('jarsigner'))
-        jarsigner = project.jarsigner;
+        jarsigner = project.jarsigner
 
     alias = 'tcon'
     storePass = jarsigner.storepass

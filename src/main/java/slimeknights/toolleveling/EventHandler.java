@@ -19,7 +19,7 @@ import slimeknights.toolleveling.config.Config;
 
 public final class EventHandler {
 
-  public static EventHandler INSTANCE = new EventHandler();
+  public static final EventHandler INSTANCE = new EventHandler();
 
 
   @SubscribeEvent
