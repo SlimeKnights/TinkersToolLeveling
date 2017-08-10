@@ -1,0 +1,31 @@
+tooltip.level=Stufe
+tooltip.xp=EP
+
+tooltip.level.0=wie neu
+tooltip.level.1=instabil
+tooltip.level.2=porös
+tooltip.level.3=klobig
+tooltip.level.4=gewöhnlich
+tooltip.level.5=angenehm
+tooltip.level.6=versiert
+tooltip.level.7=erfahren
+tooltip.level.8=meisterhaft
+tooltip.level.9=ritterhaft
+tooltip.level.10=heldenhaft
+tooltip.level.11=legendär
+tooltip.level.19=gottähnlich
+tooltip.level.42=überwältigend
+tooltip.level.66=ehrfurchtgebietend
+tooltip.level.99=∞
+
+message.levelup.2=%s ist porös
+message.levelup.3=%s ist klobig
+message.levelup.4=%s wird gewöhnlich
+message.levelup.5=%s führt sich angenehm
+message.levelup.6=%s ist versiert
+message.levelup.7=%s hat Erfahrung
+message.levelup.8=%s wird gemeistert
+message.levelup.9=%s verhält sich ritterlich
+message.levelup.10=%s ist heldengleich
+message.levelup.11=%s ist legendär
+message.levelup.generic=%s erreicht Stufe %s
