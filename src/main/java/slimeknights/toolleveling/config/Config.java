@@ -36,10 +36,7 @@ public class Config extends AbstractConfig {
   private final Map<Item, Integer> baseXpForTool = new HashMap<>();
 
   /* Config File */
-  private static Configuration  configFile;
-  private static ConfigCategory General;
-  private static ConfigCategory ToolXPbase;
-  private static ConfigCategory ToolXPspecific;
+  private static Configuration configFile;
 
   public static void load(FMLPreInitializationEvent event) {
     configFile = new Configuration(event.getSuggestedConfigurationFile(), "2", false);
@@ -49,14 +46,14 @@ public class Config extends AbstractConfig {
     syncConfig();
   }
 
-  public static boolean syncConfig() {
+  public static void syncConfig() {
     Property prop;
 
     // General
     {
       String cat = "general";
       List<String> propOrder = Lists.newArrayList();
-      General = configFile.getCategory(cat);
+      ConfigCategory general = configFile.getCategory(cat);
 
       prop = configFile.get(cat, "newToolMinModifiers", INSTANCE.newToolMinModifiers);
       prop.setComment("Reduces the amount of modifiers a newly build tool gets if the value is lower than the regular amount of modifiers the tool would have.");
@@ -68,14 +65,14 @@ public class Config extends AbstractConfig {
       INSTANCE.maximumLevels = prop.getInt();
       propOrder.add(prop.getName());
 
-      General.setPropertyOrder(propOrder);
+      general.setPropertyOrder(propOrder);
     }
 
     // ToolXPbase
     {
       String cat = "toolxpbase";
       List<String> propOrder = Lists.newArrayList();
-      ToolXPbase = configFile.getCategory(cat);
+      ConfigCategory toolXPbase = configFile.getCategory(cat);
 
       prop = configFile.get(cat, "defaultBaseXP", INSTANCE.defaultBaseXP);
       prop.setComment("Needed base XP for level up.");
@@ -87,15 +84,15 @@ public class Config extends AbstractConfig {
       INSTANCE.levelMultiplier = (float) prop.getDouble();
       propOrder.add(prop.getName());
 
-      ToolXPbase.setPropertyOrder(propOrder);
+      toolXPbase.setPropertyOrder(propOrder);
     }
 
     // ToolXPspecific
     {
       String cat = "toolxpspecific";
       List<String> propOrder = Lists.newArrayList();
-      ToolXPspecific = configFile.getCategory(cat);
-      ToolXPspecific.setComment("Tool specific base XP.");
+      ConfigCategory toolXPspecific = configFile.getCategory(cat);
+      toolXPspecific.setComment("Tool specific base XP.");
 
       TinkerRegistry.getTools().forEach(tool -> {
           Property property = configFile.get(cat, tool.getIdentifier(), getDefaultXp(tool));
@@ -103,16 +100,13 @@ public class Config extends AbstractConfig {
           propOrder.add(property.getName());
       });
 
-      ToolXPspecific.setPropertyOrder(propOrder);
+      toolXPspecific.setPropertyOrder(propOrder);
     }
 
     // save changes if any
-    boolean changed = false;
     if(configFile.hasChanged()) {
       configFile.save();
-      changed = true;
     }
-    return changed;
   }
 
   public static int getStartingModifiers() {

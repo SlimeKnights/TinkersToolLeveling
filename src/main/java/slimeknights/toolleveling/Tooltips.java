@@ -1,18 +1,21 @@
 package slimeknights.toolleveling;
 
+import net.minecraft.client.resources.I18n;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.text.TextFormatting;
-import net.minecraft.util.text.translation.I18n;
 
 import java.awt.*;
 import java.util.List;
 
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
 import slimeknights.tconstruct.library.client.CustomFontColor;
 import slimeknights.tconstruct.library.utils.TinkerUtil;
 import slimeknights.toolleveling.config.Config;
 
 // utility class for constructing tooltip
+@SideOnly(Side.CLIENT)
 final class Tooltips {
 
   private Tooltips() {
@@ -29,9 +32,8 @@ final class Tooltips {
     }
   }
 
-
   private static String getXpToolTip(int xp, int xpNeeded) {
-    return String.format("%s: %s", I18n.translateToLocal("tooltip.xp"), getXpString(xp, xpNeeded));
+    return String.format("%s: %s", I18n.format("tooltip.xp"), getXpString(xp, xpNeeded));
   }
 
   private static String getXpString(int xp, int xpNeeded) {
@@ -41,43 +43,29 @@ final class Tooltips {
   }
 
   private static String getLevelTooltip(int level) {
-    return String.format("%s: %s", I18n.translateToLocal("tooltip.level"), getLevelString(level));
+    return String.format("%s: %s", I18n.format("tooltip.level"), getLevelString(level));
   }
 
-  public static String getLevelString(int level) {
-    return getLevelColor(level) + getRawLevelString(level) + TextFormatting.RESET;
-  }
-
-  private static String getRawLevelString(int level) {
-    if(level <= 0) {
-      return "";
-    }
-
-    // try a basic translated string
-    if(I18n.canTranslate("tooltip.level." + level)) {
-      return I18n.translateToLocal("tooltip.level." + level);
-    }
-
-    // ok. try to find a modulo
-    int i = 1;
-    while(I18n.canTranslate("tooltip.level." + i)) {
-      i++;
-    }
-
-    // get the modulo'd string
-    StringBuilder str = new StringBuilder(I18n.translateToLocal("tooltip.level." + (level % i)));
-    // and add +s!
-    for(int j = level / i; j > 0; j--) {
-      str.append('+');
-    }
-
-    return str.toString();
+  private static String getLevelString(int level) {
+    return getLevelColor(level) + level + TextFormatting.RESET;
   }
 
   private static String getLevelColor(int level) {
-    float hue = (0.277777f * level);
-    hue = hue - (int) hue;
+    float hue;
+
+    if      (level <=   1) hue = 0.1f;
+    else if (level ==   2) hue = 0.2f;
+    else if (level <=   4) hue = 0.3f;
+    else if (level <=   8) hue = 0.4f;
+    else if (level <=  16) hue = 0.5f;
+    else if (level <=  32) hue = 0.6f;
+    else if (level <=  64) hue = 0.7f;
+    else if (level <= 128) hue = 0.8f;
+    else if (level <= 256) hue = 0.9f;
+    else                   hue = 1.0f;
+
     return CustomFontColor.encodeColor(Color.HSBtoRGB(hue, 0.75f, 0.8f));
+
         /* Old colors
         switch (level%12)
         {

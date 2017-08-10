@@ -24,7 +24,7 @@ public class TinkerToolLeveling {
   public static final String MODID = "tinkertoolleveling";
   public static final String VERSION = "${version}";
 
-  @SidedProxy(clientSide = "slimeknights.toolleveling.CommonProxy", serverSide = "slimeknights.toolleveling.CommonProxy")
+  @SidedProxy(clientSide = "slimeknights.toolleveling.ClientProxy", serverSide = "slimeknights.toolleveling.CommonProxy")
   public static CommonProxy proxy;
 
   public static NetworkWrapper networkWrapper;
