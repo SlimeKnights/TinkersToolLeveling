@@ -78,12 +78,12 @@ public class Config extends AbstractConfig {
       ToolXPbase = configFile.getCategory(cat);
 
       prop = configFile.get(cat, "defaultBaseXP", INSTANCE.defaultBaseXP);
-      prop.setComment("Needed XP for level up, will be doubled for each reached level.");
+      prop.setComment("Needed base XP for level up.");
       INSTANCE.defaultBaseXP = prop.getInt();
       propOrder.add(prop.getName());
 
       prop = configFile.get(cat, "levelMultiplier", INSTANCE.levelMultiplier);
-      prop.setComment("Needed XP multiplier.");
+      prop.setComment("Base XP multiplier for each reached level.");
       INSTANCE.levelMultiplier = (float) prop.getDouble();
       propOrder.add(prop.getName());
 
@@ -95,7 +95,7 @@ public class Config extends AbstractConfig {
       String cat = "toolxpspecific";
       List<String> propOrder = Lists.newArrayList();
       ToolXPspecific = configFile.getCategory(cat);
-      ToolXPspecific.setComment("Tool specific XP needing.");
+      ToolXPspecific.setComment("Tool specific base XP.");
 
       TinkerRegistry.getTools().stream().forEach(tool -> {
           Property property = configFile.get(cat, tool.getIdentifier(), getDefaultXp(tool));

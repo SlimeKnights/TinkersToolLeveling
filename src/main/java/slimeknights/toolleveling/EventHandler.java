@@ -8,6 +8,8 @@ import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 
 import java.util.List;
 
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
 import slimeknights.tconstruct.library.events.TinkerToolEvent;
 import slimeknights.tconstruct.library.materials.Material;
 import slimeknights.tconstruct.library.utils.TagUtil;
@@ -49,6 +51,7 @@ public final class EventHandler {
     }
   }
 
+  @SideOnly(Side.CLIENT)
   @SubscribeEvent
   public void onTooltip(ItemTooltipEvent event) {
     Tooltips.addTooltips(event.getItemStack(), event.getToolTip());
