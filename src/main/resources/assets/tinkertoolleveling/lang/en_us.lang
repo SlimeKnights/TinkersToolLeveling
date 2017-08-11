@@ -2,3 +2,6 @@ tooltip.level=Level
 tooltip.xp=XP
 
 message.levelup=Your %s has reached level %s
+
+message.command.help=/levelupTool while holding a tinker tool in your hand
+message.command.exception=No tinker tool in hand

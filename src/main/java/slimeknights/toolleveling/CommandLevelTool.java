@@ -1,4 +1,4 @@
-package slimeknights.toolleveling.debug;
+package slimeknights.toolleveling;
 
 import net.minecraft.command.CommandBase;
 import net.minecraft.command.CommandException;
@@ -6,11 +6,9 @@ import net.minecraft.command.ICommandSender;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.server.MinecraftServer;
-
+import net.minecraft.util.text.TextComponentTranslation;
 import slimeknights.tconstruct.library.tools.ToolCore;
 import slimeknights.tconstruct.library.utils.TinkerUtil;
-import slimeknights.toolleveling.TinkerToolLeveling;
-import slimeknights.toolleveling.ToolLevelNBT;
 
 import javax.annotation.Nonnull;
 
@@ -29,7 +27,9 @@ public class CommandLevelTool extends CommandBase {
   @Nonnull
   @Override
   public String getUsage(@Nonnull ICommandSender sender) {
-    return "/levelupTool while holding a tinker tool in your hand";
+    return new TextComponentTranslation(
+        "message.command.help"
+    ).getFormattedText();
   }
 
   @Override
@@ -47,7 +47,9 @@ public class CommandLevelTool extends CommandBase {
       }
       TinkerToolLeveling.modToolLeveling.addXp(itemStack, xp, player);
     } else {
-      throw new CommandException("No tinker tool in hand");
+      throw new CommandException(new TextComponentTranslation(
+          "message.command.exception"
+      ).getFormattedText());
     }
   }
 }

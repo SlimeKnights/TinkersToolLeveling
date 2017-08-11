@@ -14,7 +14,6 @@ import slimeknights.toolleveling.capability.CapabilityDamageXp;
 import slimeknights.toolleveling.config.Config;
 import slimeknights.toolleveling.config.ConfigSync;
 import slimeknights.toolleveling.config.ConfigSyncPacket;
-import slimeknights.toolleveling.debug.CommandLevelTool;
 
 @SuppressWarnings("WeakerAccess")
 @Mod(modid = TinkerToolLeveling.MODID,
