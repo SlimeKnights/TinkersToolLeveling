@@ -46,10 +46,10 @@ public class DamageXpHandler implements IDamageXp, ICapabilitySerializable<NBTTa
     Map<ItemStack, Float> damageMap = playerToDamageMap.getOrDefault(player.getUniqueID(), new HashMap<>());
 
     return damageMap.entrySet().stream()
-                    .filter(itemStackFloatEntry -> ToolCore.isEqualTinkersItem(tool, itemStackFloatEntry.getKey()))
-                    .findFirst()
-                    .map(Map.Entry::getValue)
-                    .orElse(0f);
+        .filter(itemStackFloatEntry -> ToolCore.isEqualTinkersItem(tool, itemStackFloatEntry.getKey()))
+        .findFirst()
+        .map(Map.Entry::getValue)
+        .orElse(0f);
   }
 
   @Override
@@ -59,21 +59,21 @@ public class DamageXpHandler implements IDamageXp, ICapabilitySerializable<NBTTa
 
   private void distributeXpForPlayer(World world, UUID playerUuid, Map<ItemStack, Float> damageMap) {
     Optional.ofNullable(world.getPlayerEntityByUUID(playerUuid))
-            .ifPresent(
-                player -> damageMap.forEach(
-                    (itemStack, damage) -> distributeXpToPlayerForTool(player, itemStack, damage)
-                )
-            );
+        .ifPresent(
+            player -> damageMap.forEach(
+                (itemStack, damage) -> distributeXpToPlayerForTool(player, itemStack, damage)
+            )
+        );
   }
 
   private void distributeXpToPlayerForTool(EntityPlayer player, ItemStack tool, float damage) {
-    if(player.hasCapability(CapabilityItemHandler.ITEM_HANDLER_CAPABILITY, null)) {
+    if (player.hasCapability(CapabilityItemHandler.ITEM_HANDLER_CAPABILITY, null)) {
       IItemHandler itemHandler = player.getCapability(CapabilityItemHandler.ITEM_HANDLER_CAPABILITY, null);
 
       // check for identity. should work in most cases because the entity was killed without loading/unloading
       if (itemHandler != null) {
-        for(int i = 0; i < itemHandler.getSlots(); i++) {
-          if(itemHandler.getStackInSlot(i) == tool) {
+        for (int i = 0; i < itemHandler.getSlots(); i++) {
+          if (itemHandler.getStackInSlot(i) == tool) {
             TinkerToolLeveling.modToolLeveling.addXp(tool, Math.round(damage), player);
             return;
           }
@@ -81,8 +81,8 @@ public class DamageXpHandler implements IDamageXp, ICapabilitySerializable<NBTTa
       }
 
       // check for equal stack in case instance equality didn't find it
-      for(int i = 0; i < itemHandler.getSlots(); i++) {
-        if(ToolCore.isEqualTinkersItem(itemHandler.getStackInSlot(i), tool)) {
+      for (int i = 0; i < itemHandler.getSlots(); i++) {
+        if (ToolCore.isEqualTinkersItem(itemHandler.getStackInSlot(i), tool)) {
           TinkerToolLeveling.modToolLeveling.addXp(itemHandler.getStackInSlot(i), Math.round(damage), player);
           return;
         }
@@ -125,7 +125,7 @@ public class DamageXpHandler implements IDamageXp, ICapabilitySerializable<NBTTa
   @Override
   public void deserializeNBT(NBTTagList nbt) {
     playerToDamageMap = new HashMap<>();
-    for(int i = 0; i < nbt.tagCount(); i++) {
+    for (int i = 0; i < nbt.tagCount(); i++) {
       NBTTagCompound tag = nbt.getCompoundTagAt(i);
 
       UUID playerUuid = tag.getUniqueId(TAG_PLAYER_UUID);
@@ -133,7 +133,7 @@ public class DamageXpHandler implements IDamageXp, ICapabilitySerializable<NBTTa
 
       Map<ItemStack, Float> damageMap = new HashMap<>();
 
-      for(int j = 0; j < data.tagCount(); j++) {
+      for (int j = 0; j < data.tagCount(); j++) {
         deserializeTagToMapEntry(damageMap, data.getCompoundTagAt(j));
       }
 
@@ -143,7 +143,7 @@ public class DamageXpHandler implements IDamageXp, ICapabilitySerializable<NBTTa
 
   private void deserializeTagToMapEntry(Map<ItemStack, Float> damageMap, NBTTagCompound tag) {
     ItemStack stack = new ItemStack(tag.getCompoundTag(TAG_ITEM));
-    if(!stack.isEmpty()) {
+    if (!stack.isEmpty()) {
       damageMap.put(stack, tag.getFloat(TAG_DAMAGE));
     }
   }
@@ -156,7 +156,7 @@ public class DamageXpHandler implements IDamageXp, ICapabilitySerializable<NBTTa
   @SuppressWarnings("unchecked")
   @Override
   public <T> T getCapability(Capability<T> capability, @Nullable EnumFacing facing) {
-    if(capability == CapabilityDamageXp.CAPABILITY) {
+    if (capability == CapabilityDamageXp.CAPABILITY) {
       return (T) this;
     }
     return null;

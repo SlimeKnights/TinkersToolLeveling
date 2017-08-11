@@ -23,9 +23,9 @@ final class Tooltips {
 
   public static void addTooltips(ItemStack itemStack, List<String> tooltips) {
     NBTTagCompound tag = TinkerUtil.getModifierTag(itemStack, TinkerToolLeveling.modToolLeveling.getModifierIdentifier());
-    if(!tag.hasNoTags()) {
+    if (!tag.hasNoTags()) {
       ToolLevelNBT data = new ToolLevelNBT(tag);
-      if(Config.canLevelUp(data.level)) {
+      if (Config.canLevelUp(data.level)) {
         tooltips.add(1, getXpToolTip(data.xp, TinkerToolLeveling.modToolLeveling.getXpForLevelup(data.level, itemStack)));
       }
       tooltips.add(1, getLevelTooltip(data.level));

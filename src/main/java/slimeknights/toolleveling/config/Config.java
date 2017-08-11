@@ -27,7 +27,7 @@ public class Config extends AbstractConfig {
 
   public static final Config INSTANCE = new Config();
 
-// General
+  // General
   private int                newToolMinModifiers =   3;
   private int                maximumLevels       =  -1;
   // ToolXP
@@ -95,16 +95,16 @@ public class Config extends AbstractConfig {
       toolXPspecific.setComment("Tool specific base XP.");
 
       TinkerRegistry.getTools().forEach(tool -> {
-          Property property = configFile.get(cat, tool.getIdentifier(), getDefaultXp(tool));
-          INSTANCE.baseXpForTool.put(tool, property.getInt());
-          propOrder.add(property.getName());
+        Property property = configFile.get(cat, tool.getIdentifier(), getDefaultXp(tool));
+        INSTANCE.baseXpForTool.put(tool, property.getInt());
+        propOrder.add(property.getName());
       });
 
       toolXPspecific.setPropertyOrder(propOrder);
     }
 
     // save changes if any
-    if(configFile.hasChanged()) {
+    if (configFile.hasChanged()) {
       configFile.save();
     }
   }
@@ -127,11 +127,11 @@ public class Config extends AbstractConfig {
 
   private static int getDefaultXp(Item item) {
     HashSet<Item> aoeTools = Sets.newHashSet(hammer, excavator, lumberAxe);
-    if(scythe != null) {
+    if (scythe != null) {
       aoeTools.add(scythe);
     }
 
-    if(aoeTools.contains(item)) {
+    if (aoeTools.contains(item)) {
       return 9 * INSTANCE.defaultBaseXP;
     }
     return INSTANCE.defaultBaseXP;

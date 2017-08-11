@@ -14,7 +14,7 @@ public class ConfigSync {
   @SubscribeEvent
   @SideOnly(Side.SERVER)
   public void playerLoggedIn(PlayerEvent.PlayerLoggedInEvent event) {
-    if(event.player instanceof EntityPlayerMP && FMLCommonHandler.instance().getSide().isServer()) {
+    if (event.player instanceof EntityPlayerMP && FMLCommonHandler.instance().getSide().isServer()) {
       ConfigSyncPacket packet = new ConfigSyncPacket();
       TinkerToolLeveling.networkWrapper.network.sendTo(packet, (EntityPlayerMP) event.player);
     }

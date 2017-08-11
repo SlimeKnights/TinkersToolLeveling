@@ -1,8 +1,8 @@
 {
-   "levelup": {
-     "category": "player",
-     "sounds": [
-       "tinkertoolleveling:chime"
-     ]
-   }
+  "levelup": {
+    "category": "player",
+    "sounds": [
+      "tinkertoolleveling:chime"
+    ]
+  }
 }

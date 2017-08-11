@@ -34,18 +34,16 @@ public class CommandLevelTool extends CommandBase {
     EntityPlayer player = getCommandSenderAsPlayer(sender);
     ItemStack itemStack = player.getHeldItemMainhand();
 
-    if(itemStack.getItem() instanceof ToolCore) {
+    if (itemStack.getItem() instanceof ToolCore) {
       int xp;
-      if(args.length > 0) {
+      if (args.length > 0) {
         xp = parseInt(args[0]);
-      }
-      else {
+      } else {
         ToolLevelNBT data = new ToolLevelNBT(TinkerUtil.getModifierTag(itemStack, TinkerToolLeveling.modToolLeveling.getModifierIdentifier()));
         xp = TinkerToolLeveling.modToolLeveling.getXpForLevelup(data.level, itemStack);
       }
       TinkerToolLeveling.modToolLeveling.addXp(itemStack, xp, player);
-    }
-    else {
+    } else {
       throw new CommandException("No tinker tool in hand");
     }
   }
