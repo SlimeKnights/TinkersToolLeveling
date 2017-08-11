@@ -37,9 +37,9 @@ class CommandLevelTool extends CommandBase {
     EntityPlayer player = getCommandSenderAsPlayer(sender);
     ItemStack itemStack = player.getHeldItemMainhand();
 
-    if (itemStack.getItem() instanceof ToolCore) {
+    if(itemStack.getItem() instanceof ToolCore) {
       int xp;
-      if (args.length > 0) {
+      if(args.length > 0) {
         xp = parseInt(args[0]);
       } else {
         ToolLevelNBT data = new ToolLevelNBT(TinkerUtil.getModifierTag(itemStack, TinkerToolLeveling.modToolLeveling.getModifierIdentifier()));

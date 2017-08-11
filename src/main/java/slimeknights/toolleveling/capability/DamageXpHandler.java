@@ -67,20 +67,20 @@ public class DamageXpHandler implements IDamageXp, ICapabilitySerializable<NBTTa
   }
 
   private void distributeXpToPlayerForTool(EntityPlayer player, ItemStack tool, float damage) {
-    if (player.hasCapability(CapabilityItemHandler.ITEM_HANDLER_CAPABILITY, null)) {
+    if(player.hasCapability(CapabilityItemHandler.ITEM_HANDLER_CAPABILITY, null)) {
       IItemHandler itemHandler = player.getCapability(CapabilityItemHandler.ITEM_HANDLER_CAPABILITY, null);
 
-      if (itemHandler == null) return;
+      if(itemHandler == null) return;
 
       for (int i = 0; i < itemHandler.getSlots(); i++) {
         // check for identity. should work in most cases because the entity was killed without loading/unloading
-        if (itemHandler.getStackInSlot(i) == tool) {
+        if(itemHandler.getStackInSlot(i) == tool) {
           TinkerToolLeveling.modToolLeveling.addXp(tool, Math.round(damage), player);
           return;
         }
 
         // check for equal stack in case instance equality didn't find it
-        if (ToolCore.isEqualTinkersItem(itemHandler.getStackInSlot(i), tool)) {
+        if(ToolCore.isEqualTinkersItem(itemHandler.getStackInSlot(i), tool)) {
           TinkerToolLeveling.modToolLeveling.addXp(itemHandler.getStackInSlot(i), Math.round(damage), player);
           return;
         }
@@ -140,7 +140,7 @@ public class DamageXpHandler implements IDamageXp, ICapabilitySerializable<NBTTa
 
   private void deserializeTagToMapEntry(Map<ItemStack, Float> damageMap, NBTTagCompound tag) {
     ItemStack stack = new ItemStack(tag.getCompoundTag(TAG_ITEM));
-    if (!stack.isEmpty()) {
+    if(!stack.isEmpty()) {
       damageMap.put(stack, tag.getFloat(TAG_DAMAGE));
     }
   }
@@ -155,7 +155,7 @@ public class DamageXpHandler implements IDamageXp, ICapabilitySerializable<NBTTa
   @Override
   public <T> T getCapability(@Nonnull Capability<T> capability, @Nullable EnumFacing facing) {
     //noinspection ConstantConditions
-    if (capability == CapabilityDamageXp.CAPABILITY) {
+    if(capability == CapabilityDamageXp.CAPABILITY) {
       return (T) this;
     }
     return null;

@@ -57,7 +57,7 @@ public class TinkerToolLeveling {
   @SuppressWarnings("unused")
   @EventHandler
   public void postInit(FMLPostInitializationEvent event) {
-    if (event.getSide().isServer()) {
+    if(event.getSide().isServer()) {
       MinecraftForge.EVENT_BUS.register(new ConfigSync());
     }
   }

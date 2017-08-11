@@ -103,7 +103,7 @@ public class Config extends AbstractConfig {
     }
 
     // save changes if any
-    if (configFile.hasChanged()) {
+    if(configFile.hasChanged()) {
       configFile.save();
     }
   }
@@ -126,11 +126,11 @@ public class Config extends AbstractConfig {
 
   private static int getDefaultXp(Item item) {
     HashSet<Item> aoeTools = Sets.newHashSet(hammer, excavator, lumberAxe);
-    if (scythe != null) {
+    if(scythe != null) {
       aoeTools.add(scythe);
     }
 
-    if (aoeTools.contains(item)) {
+    if(aoeTools.contains(item)) {
       return 9 * INSTANCE.defaultBaseXP;
     }
     return INSTANCE.defaultBaseXP;

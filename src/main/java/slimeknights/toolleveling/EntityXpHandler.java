@@ -18,7 +18,7 @@ public class EntityXpHandler {
   @SuppressWarnings("unused")
   @SubscribeEvent
   public void onCapabilityAttach(AttachCapabilitiesEvent<Entity> event) {
-    if (event.getObject() instanceof EntityLivingBase && event.getObject().isEntityAlive()) {
+    if(event.getObject() instanceof EntityLivingBase && event.getObject().isEntityAlive()) {
       event.addCapability(CAPABILITY_KEY, new DamageXpHandler());
     }
   }
@@ -26,7 +26,7 @@ public class EntityXpHandler {
   @SuppressWarnings({"ConstantConditions", "unused"})
   @SubscribeEvent
   public void onDeath(LivingDeathEvent event) {
-    if (!event.getEntity().getEntityWorld().isRemote && event.getEntity().hasCapability(CapabilityDamageXp.CAPABILITY, null)) {
+    if(!event.getEntity().getEntityWorld().isRemote && event.getEntity().hasCapability(CapabilityDamageXp.CAPABILITY, null)) {
       event.getEntity().getCapability(CapabilityDamageXp.CAPABILITY, null).distributeXpToTools(event.getEntityLiving());
     }
   }

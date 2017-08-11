@@ -34,16 +34,16 @@ public class CommonProxy {
   }
 
   public static TextFormatting getLevelColor(int level) {
-    if      (level <=   1) return TextFormatting.GREEN;
-    else if (level ==   2) return TextFormatting.DARK_GREEN;
-    else if (level <=   4) return TextFormatting.AQUA;
-    else if (level <=   8) return TextFormatting.BLUE;
-    else if (level <=  16) return TextFormatting.LIGHT_PURPLE;
-    else if (level <=  32) return TextFormatting.DARK_PURPLE;
-    else if (level <=  64) return TextFormatting.YELLOW;
-    else if (level <= 128) return TextFormatting.GOLD;
-    else if (level <= 256) return TextFormatting.RED;
-    else                   return TextFormatting.DARK_RED;
+    if     (level <=   1) return TextFormatting.GREEN;
+    else if(level ==   2) return TextFormatting.DARK_GREEN;
+    else if(level <=   4) return TextFormatting.AQUA;
+    else if(level <=   8) return TextFormatting.BLUE;
+    else if(level <=  16) return TextFormatting.LIGHT_PURPLE;
+    else if(level <=  32) return TextFormatting.DARK_PURPLE;
+    else if(level <=  64) return TextFormatting.YELLOW;
+    else if(level <= 128) return TextFormatting.GOLD;
+    else if(level <= 256) return TextFormatting.RED;
+    else                  return TextFormatting.DARK_RED;
   }
 
   private static SoundEvent registerSound() {

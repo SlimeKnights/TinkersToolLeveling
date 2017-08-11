@@ -19,7 +19,7 @@ final class Tooltips {
 
   public static void addTooltips(ItemStack itemStack, List<String> tooltips) {
     NBTTagCompound tag = TinkerUtil.getModifierTag(itemStack, TinkerToolLeveling.modToolLeveling.getModifierIdentifier());
-    if (!tag.hasNoTags()) {
+    if(!tag.hasNoTags()) {
       ToolLevelNBT data = new ToolLevelNBT(tag);
       tooltips.add(1, getTooltip(
           data.level,
@@ -31,7 +31,7 @@ final class Tooltips {
   }
 
   private static String getTooltip(int level, int xp, int xpNeeded, boolean canLevelUp) {
-    if (canLevelUp) {
+    if(canLevelUp) {
       return String.format("%s %s    %s %s",
           TextFormatting.GRAY                         + I18n.format("tooltip.level"),
           CommonProxy.getLevelColor(level).toString() + level,

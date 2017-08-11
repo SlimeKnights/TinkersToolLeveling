@@ -66,7 +66,7 @@ public class ModToolLeveling extends ModifierTrait {
 
   @Override
   public void afterBlockBreak(ItemStack tool, World world, IBlockState state, BlockPos pos, EntityLivingBase player, boolean wasEffective) {
-    if (wasEffective && player instanceof EntityPlayer) {
+    if(wasEffective && player instanceof EntityPlayer) {
       addXp(tool, 1, (EntityPlayer) player);
     }
   }
@@ -74,12 +74,12 @@ public class ModToolLeveling extends ModifierTrait {
   @SuppressWarnings("ConstantConditions")
   @Override
   public void afterHit(ItemStack tool, EntityLivingBase player, EntityLivingBase target, float damageDealt, boolean wasCritical, boolean wasHit) {
-    if (!target.getEntityWorld().isRemote && wasHit && player instanceof EntityPlayer) {
+    if(!target.getEntityWorld().isRemote && wasHit && player instanceof EntityPlayer) {
       // if we killed it the event for distributing xp was already fired and we just do it manually here
       EntityPlayer entityPlayer = (EntityPlayer) player;
-      if (!target.isEntityAlive()) {
+      if(!target.isEntityAlive()) {
         addXp(tool, Math.round(damageDealt), entityPlayer);
-      } else if (target.hasCapability(CapabilityDamageXp.CAPABILITY, null)) {
+      } else if(target.hasCapability(CapabilityDamageXp.CAPABILITY, null)) {
         target.getCapability(CapabilityDamageXp.CAPABILITY, null).addDamageFromTool(damageDealt, tool, entityPlayer);
       }
     }
@@ -87,7 +87,7 @@ public class ModToolLeveling extends ModifierTrait {
 
   @Override
   public void onBlock(ItemStack tool, EntityPlayer player, LivingHurtEvent event) {
-    if (player != null && !player.world.isRemote && player.getActiveItemStack() == tool) {
+    if(player != null && !player.world.isRemote && player.getActiveItemStack() == tool) {
       int xp = Math.round(event.getAmount());
       addXp(tool, xp, player);
     }
@@ -108,7 +108,7 @@ public class ModToolLeveling extends ModifierTrait {
   @SuppressWarnings("unused")
   @SubscribeEvent(priority = EventPriority.LOWEST, receiveCanceled = true)
   public void onLivingHurt(LivingAttackEvent event) {
-    if (!event.isCanceled()                               // if it's cancelled it got handled by the battlesign (or something else. but it's a prerequisite.)
+    if(!event.isCanceled()                               // if it's cancelled it got handled by the battlesign (or something else. but it's a prerequisite.)
         || event.getSource().isUnblockable()
         || !event.getSource().isProjectile()
         || event.getSource().getImmediateSource() == null
@@ -120,7 +120,7 @@ public class ModToolLeveling extends ModifierTrait {
     EntityPlayer player = (EntityPlayer) event.getEntity();
 
     // needs to be blocking with a battlesign
-    if (!player.isActiveItemStackBlocking()                                       // player block ...
+    if(!player.isActiveItemStackBlocking()                                       // player block ...
         || player.getActiveItemStack().getItem() != TinkerMeleeWeapons.battleSign // ... with a battlesign ...
         || ToolHelper.isBroken(player.getActiveItemStack())                       // ... which isn't broken
         ) {
@@ -143,7 +143,7 @@ public class ModToolLeveling extends ModifierTrait {
     data.xp += amount;
 
     // is max level?
-    if (!Config.canLevelUp(data.level)) {
+    if(!Config.canLevelUp(data.level)) {
       return;
     }
 
@@ -151,7 +151,7 @@ public class ModToolLeveling extends ModifierTrait {
 
     boolean leveledUp = false;
     // check for levelup
-    if (data.xp >= xpForLevelup) {
+    if(data.xp >= xpForLevelup) {
       data.xp -= xpForLevelup;
       data.level++;
       data.bonusModifiers++;
@@ -162,9 +162,9 @@ public class ModToolLeveling extends ModifierTrait {
     //tagList.set(index, modifierTag);
     TagUtil.setModifiersTagList(tool, tagList);
 
-    if (leveledUp) {
+    if(leveledUp) {
       this.apply(tool);
-      if (!player.world.isRemote) {
+      if(!player.world.isRemote) {
         // for some reason the proxy is messed up. cba to fix now
         TinkerToolLeveling.proxy.playLevelupDing(player);
         TinkerToolLeveling.proxy.sendLevelUpMessage(data.level, tool, player);
@@ -181,7 +181,7 @@ public class ModToolLeveling extends ModifierTrait {
   }
 
   public int getXpForLevelup(int level, ItemStack tool) {
-    if (level <= 1) {
+    if(level <= 1) {
       return Config.getBaseXpForTool(tool.getItem());
     }
     return (int) ((float) getXpForLevelup(level - 1, tool) * Config.getLevelMultiplier());
