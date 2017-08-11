@@ -19,5 +19,4 @@ public class ConfigSync {
       TinkerToolLeveling.networkWrapper.network.sendTo(packet, (EntityPlayerMP) event.player);
     }
   }
-
 }

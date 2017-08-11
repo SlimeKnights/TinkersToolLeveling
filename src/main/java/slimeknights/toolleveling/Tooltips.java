@@ -14,7 +14,6 @@ import java.util.List;
 // utility class for constructing tooltip
 @SideOnly(Side.CLIENT)
 final class Tooltips {
-
   private Tooltips() {
   } // non-instantiable
 

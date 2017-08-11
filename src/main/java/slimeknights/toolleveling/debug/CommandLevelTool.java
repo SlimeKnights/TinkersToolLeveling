@@ -15,7 +15,6 @@ import slimeknights.toolleveling.ToolLevelNBT;
 import javax.annotation.Nonnull;
 
 public class CommandLevelTool extends CommandBase {
-
   @Override
   public int getRequiredPermissionLevel() {
     return 4;

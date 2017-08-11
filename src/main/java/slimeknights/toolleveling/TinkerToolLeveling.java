@@ -68,5 +68,4 @@ public class TinkerToolLeveling {
   public void serverStart(FMLServerStartingEvent event) {
     event.registerServerCommand(new CommandLevelTool());
   }
-
 }

@@ -29,7 +29,6 @@ import slimeknights.toolleveling.capability.CapabilityDamageXp;
 import slimeknights.toolleveling.config.Config;
 
 public class ModToolLeveling extends ModifierTrait {
-
   @SuppressWarnings("unused")
   public ModToolLeveling() {
     super("toolleveling", 0xffffff);
@@ -109,24 +108,22 @@ public class ModToolLeveling extends ModifierTrait {
   @SuppressWarnings("unused")
   @SubscribeEvent(priority = EventPriority.LOWEST, receiveCanceled = true)
   public void onLivingHurt(LivingAttackEvent event) {
-    // if it's cancelled it got handled by the battlesign (or something else. but it's a prerequisite.)
-    if (!event.isCanceled()) {
+    if (!event.isCanceled()                               // if it's cancelled it got handled by the battlesign (or something else. but it's a prerequisite.)
+        || event.getSource().isUnblockable()
+        || !event.getSource().isProjectile()
+        || event.getSource().getImmediateSource() == null
+        || !(event.getEntity() instanceof EntityPlayer)  // hit entity is a player?
+        ) {
       return;
     }
-    if (event.getSource().isUnblockable() || !event.getSource().isProjectile() || event.getSource().getImmediateSource() == null) {
-      return;
-    }
-    // hit entity is a player?
-    if (!(event.getEntity() instanceof EntityPlayer)) {
-      return;
-    }
+
     EntityPlayer player = (EntityPlayer) event.getEntity();
+
     // needs to be blocking with a battlesign
-    if (!player.isActiveItemStackBlocking() || player.getActiveItemStack().getItem() != TinkerMeleeWeapons.battleSign) {
-      return;
-    }
-    // broken battlesign.
-    if (ToolHelper.isBroken(player.getActiveItemStack())) {
+    if (!player.isActiveItemStackBlocking()                                       // player block ...
+        || player.getActiveItemStack().getItem() != TinkerMeleeWeapons.battleSign // ... with a battlesign ...
+        || ToolHelper.isBroken(player.getActiveItemStack())                       // ... which isn't broken
+        ) {
       return;
     }
 
@@ -193,5 +190,4 @@ public class ModToolLeveling extends ModifierTrait {
   private ToolLevelNBT getLevelData(NBTTagCompound modifierNBT) {
     return new ToolLevelNBT(modifierNBT);
   }
-
 }

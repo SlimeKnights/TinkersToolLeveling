@@ -24,11 +24,10 @@ import slimeknights.tconstruct.library.tools.ToolCore;
 import slimeknights.toolleveling.TinkerToolLeveling;
 
 public class DamageXpHandler implements IDamageXp, ICapabilitySerializable<NBTTagList> {
-
   private static final String TAG_PLAYER_UUID = "player_uuid";
   private static final String TAG_DAMAGE_LIST = "damage_data";
-  private static final String TAG_ITEM = "item";
-  private static final String TAG_DAMAGE = "damage";
+  private static final String TAG_ITEM        = "item";
+  private static final String TAG_DAMAGE      = "damage";
 
   private Map<UUID, Map<ItemStack, Float>> playerToDamageMap = new HashMap<>();
 
@@ -73,16 +72,14 @@ public class DamageXpHandler implements IDamageXp, ICapabilitySerializable<NBTTa
 
       if (itemHandler == null) return;
 
-      // check for identity. should work in most cases because the entity was killed without loading/unloading
       for (int i = 0; i < itemHandler.getSlots(); i++) {
+        // check for identity. should work in most cases because the entity was killed without loading/unloading
         if (itemHandler.getStackInSlot(i) == tool) {
           TinkerToolLeveling.modToolLeveling.addXp(tool, Math.round(damage), player);
           return;
         }
-      }
 
-      // check for equal stack in case instance equality didn't find it
-      for (int i = 0; i < itemHandler.getSlots(); i++) {
+        // check for equal stack in case instance equality didn't find it
         if (ToolCore.isEqualTinkersItem(itemHandler.getStackInSlot(i), tool)) {
           TinkerToolLeveling.modToolLeveling.addXp(itemHandler.getStackInSlot(i), Math.round(damage), player);
           return;
@@ -121,7 +118,6 @@ public class DamageXpHandler implements IDamageXp, ICapabilitySerializable<NBTTa
 
     return tag;
   }
-
 
   @Override
   public void deserializeNBT(NBTTagList nbt) {

@@ -11,7 +11,6 @@ import slimeknights.toolleveling.capability.CapabilityDamageXp;
 import slimeknights.toolleveling.capability.DamageXpHandler;
 
 public class EntityXpHandler {
-
   public static final EntityXpHandler INSTANCE = new EntityXpHandler();
 
   private static final ResourceLocation CAPABILITY_KEY = new ResourceLocation(TinkerToolLeveling.MODID, "entityxp");

@@ -24,7 +24,6 @@ import static slimeknights.tconstruct.tools.harvest.TinkerHarvestTools.lumberAxe
 import static slimeknights.tconstruct.tools.harvest.TinkerHarvestTools.scythe;
 
 public class Config extends AbstractConfig {
-
   public static final Config INSTANCE = new Config();
 
   // General
