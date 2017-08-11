@@ -16,21 +16,23 @@ import slimeknights.toolleveling.config.ConfigSync;
 import slimeknights.toolleveling.config.ConfigSyncPacket;
 import slimeknights.toolleveling.debug.CommandLevelTool;
 
+@SuppressWarnings("WeakerAccess")
 @Mod(modid = TinkerToolLeveling.MODID,
     version = TinkerToolLeveling.VERSION
 )
 public class TinkerToolLeveling {
-
   public static final String MODID = "tinkertoolleveling";
   public static final String VERSION = "${version}";
 
-  @SidedProxy(clientSide = "slimeknights.toolleveling.ClientProxy", serverSide = "slimeknights.toolleveling.CommonProxy")
+  @SuppressWarnings("unused")
+  @SidedProxy(clientSide = "slimeknights.toolleveling.CommonProxy", serverSide = "slimeknights.toolleveling.CommonProxy")
   public static CommonProxy proxy;
 
   public static NetworkWrapper networkWrapper;
 
   public static final ModToolLeveling modToolLeveling = new ModToolLeveling();
 
+  @SuppressWarnings("unused")
   @EventHandler
   public void preInit(FMLPreInitializationEvent event) {
     Config.load(event);
@@ -45,6 +47,7 @@ public class TinkerToolLeveling {
     Config.INSTANCE.save();
   }
 
+  @SuppressWarnings("unused")
   @EventHandler
   public void init(FMLInitializationEvent event) {
     /* Need this here, because preInit doesn't guarantee that TTL will
@@ -52,6 +55,7 @@ public class TinkerToolLeveling {
     Config.syncConfig();
   }
 
+  @SuppressWarnings("unused")
   @EventHandler
   public void postInit(FMLPostInitializationEvent event) {
     if (event.getSide().isServer()) {
@@ -59,6 +63,7 @@ public class TinkerToolLeveling {
     }
   }
 
+  @SuppressWarnings("unused")
   @EventHandler
   public void serverStart(FMLServerStartingEvent event) {
     event.registerServerCommand(new CommandLevelTool());

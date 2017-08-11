@@ -17,6 +17,7 @@ import java.util.Map;
 import java.util.Optional;
 import java.util.UUID;
 
+import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
 import slimeknights.tconstruct.library.tools.ToolCore;
@@ -70,13 +71,13 @@ public class DamageXpHandler implements IDamageXp, ICapabilitySerializable<NBTTa
     if (player.hasCapability(CapabilityItemHandler.ITEM_HANDLER_CAPABILITY, null)) {
       IItemHandler itemHandler = player.getCapability(CapabilityItemHandler.ITEM_HANDLER_CAPABILITY, null);
 
+      if (itemHandler == null) return;
+
       // check for identity. should work in most cases because the entity was killed without loading/unloading
-      if (itemHandler != null) {
-        for (int i = 0; i < itemHandler.getSlots(); i++) {
-          if (itemHandler.getStackInSlot(i) == tool) {
-            TinkerToolLeveling.modToolLeveling.addXp(tool, Math.round(damage), player);
-            return;
-          }
+      for (int i = 0; i < itemHandler.getSlots(); i++) {
+        if (itemHandler.getStackInSlot(i) == tool) {
+          TinkerToolLeveling.modToolLeveling.addXp(tool, Math.round(damage), player);
+          return;
         }
       }
 
@@ -148,14 +149,16 @@ public class DamageXpHandler implements IDamageXp, ICapabilitySerializable<NBTTa
     }
   }
 
+  @SuppressWarnings("ConstantConditions")
   @Override
-  public boolean hasCapability(Capability<?> capability, @Nullable EnumFacing facing) {
+  public boolean hasCapability(@Nonnull Capability<?> capability, @Nullable EnumFacing facing) {
     return capability == CapabilityDamageXp.CAPABILITY;
   }
 
   @SuppressWarnings("unchecked")
   @Override
-  public <T> T getCapability(Capability<T> capability, @Nullable EnumFacing facing) {
+  public <T> T getCapability(@Nonnull Capability<T> capability, @Nullable EnumFacing facing) {
+    //noinspection ConstantConditions
     if (capability == CapabilityDamageXp.CAPABILITY) {
       return (T) this;
     }

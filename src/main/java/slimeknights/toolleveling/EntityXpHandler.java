@@ -16,6 +16,7 @@ public class EntityXpHandler {
 
   private static final ResourceLocation CAPABILITY_KEY = new ResourceLocation(TinkerToolLeveling.MODID, "entityxp");
 
+  @SuppressWarnings("unused")
   @SubscribeEvent
   public void onCapabilityAttach(AttachCapabilitiesEvent<Entity> event) {
     if (event.getObject() instanceof EntityLivingBase && event.getObject().isEntityAlive()) {
@@ -23,6 +24,7 @@ public class EntityXpHandler {
     }
   }
 
+  @SuppressWarnings({"ConstantConditions", "unused"})
   @SubscribeEvent
   public void onDeath(LivingDeathEvent event) {
     if (!event.getEntity().getEntityWorld().isRemote && event.getEntity().hasCapability(CapabilityDamageXp.CAPABILITY, null)) {

@@ -30,6 +30,7 @@ import slimeknights.toolleveling.config.Config;
 
 public class ModToolLeveling extends ModifierTrait {
 
+  @SuppressWarnings("unused")
   public ModToolLeveling() {
     super("toolleveling", 0xffffff);
 
@@ -71,6 +72,7 @@ public class ModToolLeveling extends ModifierTrait {
     }
   }
 
+  @SuppressWarnings("ConstantConditions")
   @Override
   public void afterHit(ItemStack tool, EntityLivingBase player, EntityLivingBase target, float damageDealt, boolean wasCritical, boolean wasHit) {
     if (!target.getEntityWorld().isRemote && wasHit && player instanceof EntityPlayer) {
@@ -92,16 +94,19 @@ public class ModToolLeveling extends ModifierTrait {
     }
   }
 
+  @SuppressWarnings("unused")
   @SubscribeEvent
   public void onMattock(TinkerToolEvent.OnMattockHoe event) {
     addXp(event.itemStack, 1, event.player);
   }
 
+  @SuppressWarnings("unused")
   @SubscribeEvent
   public void onPath(TinkerToolEvent.OnShovelMakePath event) {
     addXp(event.itemStack, 1, event.player);
   }
 
+  @SuppressWarnings("unused")
   @SubscribeEvent(priority = EventPriority.LOWEST, receiveCanceled = true)
   public void onLivingHurt(LivingAttackEvent event) {
     // if it's cancelled it got handled by the battlesign (or something else. but it's a prerequisite.)

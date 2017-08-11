@@ -12,6 +12,8 @@ import slimeknights.tconstruct.library.utils.TinkerUtil;
 import slimeknights.toolleveling.TinkerToolLeveling;
 import slimeknights.toolleveling.ToolLevelNBT;
 
+import javax.annotation.Nonnull;
+
 public class CommandLevelTool extends CommandBase {
 
   @Override
@@ -19,18 +21,20 @@ public class CommandLevelTool extends CommandBase {
     return 4;
   }
 
+  @Nonnull
   @Override
   public String getName() {
     return "levelupTool";
   }
 
+  @Nonnull
   @Override
-  public String getUsage(ICommandSender sender) {
+  public String getUsage(@Nonnull ICommandSender sender) {
     return "/levelupTool while holding a tinker tool in your hand";
   }
 
   @Override
-  public void execute(MinecraftServer server, ICommandSender sender, String[] args) throws CommandException {
+  public void execute(@Nonnull MinecraftServer server, @Nonnull ICommandSender sender, @Nonnull String[] args) throws CommandException {
     EntityPlayer player = getCommandSenderAsPlayer(sender);
     ItemStack itemStack = player.getHeldItemMainhand();
 
