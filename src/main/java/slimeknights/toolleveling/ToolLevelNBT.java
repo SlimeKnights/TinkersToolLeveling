@@ -4,7 +4,7 @@ import net.minecraft.nbt.NBTTagCompound;
 
 import slimeknights.tconstruct.library.modifiers.ModifierNBT;
 
-public class ToolLevelNBT extends ModifierNBT {
+class ToolLevelNBT extends ModifierNBT {
   private static final String TAG_XP              = "xp";
   private static final String TAG_BONUS_MODIFIERS = "bonus_modifiers";
 

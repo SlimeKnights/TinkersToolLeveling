@@ -12,7 +12,7 @@ import slimeknights.tconstruct.library.utils.TinkerUtil;
 
 import javax.annotation.Nonnull;
 
-public class CommandLevelTool extends CommandBase {
+class CommandLevelTool extends CommandBase {
   @Override
   public int getRequiredPermissionLevel() {
     return 4;
