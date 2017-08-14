@@ -29,7 +29,7 @@ import slimeknights.toolleveling.capability.CapabilityDamageXp;
 import slimeknights.toolleveling.config.Config;
 
 public class ModToolLeveling extends ModifierTrait {
-  @SuppressWarnings("unused")
+
   public ModToolLeveling() {
     super("toolleveling", 0xffffff);
 
@@ -71,7 +71,6 @@ public class ModToolLeveling extends ModifierTrait {
     }
   }
 
-  @SuppressWarnings("ConstantConditions")
   @Override
   public void afterHit(ItemStack tool, EntityLivingBase player, EntityLivingBase target, float damageDealt, boolean wasCritical, boolean wasHit) {
     if(!target.getEntityWorld().isRemote && wasHit && player instanceof EntityPlayer) {
@@ -79,7 +78,8 @@ public class ModToolLeveling extends ModifierTrait {
       EntityPlayer entityPlayer = (EntityPlayer) player;
       if(!target.isEntityAlive()) {
         addXp(tool, Math.round(damageDealt), entityPlayer);
-      } else if(target.hasCapability(CapabilityDamageXp.CAPABILITY, null)) {
+      }
+      else if(target.hasCapability(CapabilityDamageXp.CAPABILITY, null)) {
         target.getCapability(CapabilityDamageXp.CAPABILITY, null).addDamageFromTool(damageDealt, tool, entityPlayer);
       }
     }
@@ -93,37 +93,36 @@ public class ModToolLeveling extends ModifierTrait {
     }
   }
 
-  @SuppressWarnings("unused")
   @SubscribeEvent
   public void onMattock(TinkerToolEvent.OnMattockHoe event) {
     addXp(event.itemStack, 1, event.player);
   }
 
-  @SuppressWarnings("unused")
   @SubscribeEvent
   public void onPath(TinkerToolEvent.OnShovelMakePath event) {
     addXp(event.itemStack, 1, event.player);
   }
 
-  @SuppressWarnings("unused")
   @SubscribeEvent(priority = EventPriority.LOWEST, receiveCanceled = true)
   public void onLivingHurt(LivingAttackEvent event) {
-    if(!event.isCanceled()                               // if it's cancelled it got handled by the battlesign (or something else. but it's a prerequisite.)
-        || event.getSource().isUnblockable()
-        || !event.getSource().isProjectile()
-        || event.getSource().getImmediateSource() == null
-        || !(event.getEntity() instanceof EntityPlayer)  // hit entity is a player?
-        ) {
+    // if it's cancelled it got handled by the battlesign (or something else. but it's a prerequisite.)
+    if(!event.isCanceled()) {
       return;
     }
-
+    if(event.getSource().isUnblockable() || !event.getSource().isProjectile() || event.getSource().getImmediateSource() == null) {
+      return;
+    }
+    // hit entity is a player?
+    if(!(event.getEntity() instanceof EntityPlayer)) {
+      return;
+    }
     EntityPlayer player = (EntityPlayer) event.getEntity();
-
     // needs to be blocking with a battlesign
-    if(!player.isActiveItemStackBlocking()                                       // player block ...
-        || player.getActiveItemStack().getItem() != TinkerMeleeWeapons.battleSign // ... with a battlesign ...
-        || ToolHelper.isBroken(player.getActiveItemStack())                       // ... which isn't broken
-        ) {
+    if(!player.isActiveItemStackBlocking() || player.getActiveItemStack().getItem() != TinkerMeleeWeapons.battleSign) {
+      return;
+    }
+    // broken battlesign.
+    if(ToolHelper.isBroken(player.getActiveItemStack())) {
       return;
     }
 
@@ -173,7 +172,7 @@ public class ModToolLeveling extends ModifierTrait {
         NBTTagCompound rootTag = TagUtil.getTagSafe(tool);
         ToolBuilder.rebuildTool(rootTag, (TinkersItem) tool.getItem());
         tool.setTagCompound(rootTag);
-      } catch (TinkerGuiException e) {
+      } catch(TinkerGuiException e) {
         // this should never happen
         e.printStackTrace();
       }
@@ -187,7 +186,12 @@ public class ModToolLeveling extends ModifierTrait {
     return (int) ((float) getXpForLevelup(level - 1, tool) * Config.getLevelMultiplier());
   }
 
+  private ToolLevelNBT getLevelData(ItemStack itemStack) {
+    return getLevelData(TinkerUtil.getModifierTag(itemStack, getModifierIdentifier()));
+  }
+
   private ToolLevelNBT getLevelData(NBTTagCompound modifierNBT) {
     return new ToolLevelNBT(modifierNBT);
   }
+
 }

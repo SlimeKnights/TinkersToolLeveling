@@ -10,7 +10,6 @@ public interface IDamageXp extends INBTSerializable<NBTTagList> {
 
   void addDamageFromTool(float damage, ItemStack tool, EntityPlayer player);
 
-  @SuppressWarnings("unused")
   float getDamageDealtByTool(ItemStack tool, EntityPlayer player);
 
   void distributeXpToTools(EntityLivingBase deadEntity);

@@ -17,17 +17,17 @@ import java.util.Map;
 import java.util.Optional;
 import java.util.UUID;
 
-import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
 import slimeknights.tconstruct.library.tools.ToolCore;
 import slimeknights.toolleveling.TinkerToolLeveling;
 
 public class DamageXpHandler implements IDamageXp, ICapabilitySerializable<NBTTagList> {
-  private static final String TAG_PLAYER_UUID = "player_uuid";
-  private static final String TAG_DAMAGE_LIST = "damage_data";
-  private static final String TAG_ITEM        = "item";
-  private static final String TAG_DAMAGE      = "damage";
+
+  private static String TAG_PLAYER_UUID = "player_uuid";
+  private static String TAG_DAMAGE_LIST = "damage_data";
+  private static String TAG_ITEM = "item";
+  private static String TAG_DAMAGE = "damage";
 
   private Map<UUID, Map<ItemStack, Float>> playerToDamageMap = new HashMap<>();
 
@@ -46,10 +46,10 @@ public class DamageXpHandler implements IDamageXp, ICapabilitySerializable<NBTTa
     Map<ItemStack, Float> damageMap = playerToDamageMap.getOrDefault(player.getUniqueID(), new HashMap<>());
 
     return damageMap.entrySet().stream()
-        .filter(itemStackFloatEntry -> ToolCore.isEqualTinkersItem(tool, itemStackFloatEntry.getKey()))
-        .findFirst()
-        .map(Map.Entry::getValue)
-        .orElse(0f);
+                    .filter(itemStackFloatEntry -> ToolCore.isEqualTinkersItem(tool, itemStackFloatEntry.getKey()))
+                    .findFirst()
+                    .map(Map.Entry::getValue)
+                    .orElse(0f);
   }
 
   @Override
@@ -59,27 +59,27 @@ public class DamageXpHandler implements IDamageXp, ICapabilitySerializable<NBTTa
 
   private void distributeXpForPlayer(World world, UUID playerUuid, Map<ItemStack, Float> damageMap) {
     Optional.ofNullable(world.getPlayerEntityByUUID(playerUuid))
-        .ifPresent(
-            player -> damageMap.forEach(
-                (itemStack, damage) -> distributeXpToPlayerForTool(player, itemStack, damage)
-            )
-        );
+            .ifPresent(
+                player -> damageMap.forEach(
+                    (itemStack, damage) -> distributeXpToPlayerForTool(player, itemStack, damage)
+                )
+            );
   }
 
   private void distributeXpToPlayerForTool(EntityPlayer player, ItemStack tool, float damage) {
     if(player.hasCapability(CapabilityItemHandler.ITEM_HANDLER_CAPABILITY, null)) {
       IItemHandler itemHandler = player.getCapability(CapabilityItemHandler.ITEM_HANDLER_CAPABILITY, null);
 
-      if(itemHandler == null) return;
-
-      for (int i = 0; i < itemHandler.getSlots(); i++) {
-        // check for identity. should work in most cases because the entity was killed without loading/unloading
+      // check for identity. should work in most cases because the entity was killed without loading/unloading
+      for(int i = 0; i < itemHandler.getSlots(); i++) {
         if(itemHandler.getStackInSlot(i) == tool) {
           TinkerToolLeveling.modToolLeveling.addXp(tool, Math.round(damage), player);
           return;
         }
+      }
 
-        // check for equal stack in case instance equality didn't find it
+      // check for equal stack in case instance equality didn't find it
+      for(int i = 0; i < itemHandler.getSlots(); i++) {
         if(ToolCore.isEqualTinkersItem(itemHandler.getStackInSlot(i), tool)) {
           TinkerToolLeveling.modToolLeveling.addXp(itemHandler.getStackInSlot(i), Math.round(damage), player);
           return;
@@ -119,10 +119,11 @@ public class DamageXpHandler implements IDamageXp, ICapabilitySerializable<NBTTa
     return tag;
   }
 
+
   @Override
   public void deserializeNBT(NBTTagList nbt) {
     playerToDamageMap = new HashMap<>();
-    for (int i = 0; i < nbt.tagCount(); i++) {
+    for(int i = 0; i < nbt.tagCount(); i++) {
       NBTTagCompound tag = nbt.getCompoundTagAt(i);
 
       UUID playerUuid = tag.getUniqueId(TAG_PLAYER_UUID);
@@ -130,7 +131,7 @@ public class DamageXpHandler implements IDamageXp, ICapabilitySerializable<NBTTa
 
       Map<ItemStack, Float> damageMap = new HashMap<>();
 
-      for (int j = 0; j < data.tagCount(); j++) {
+      for(int j = 0; j < data.tagCount(); j++) {
         deserializeTagToMapEntry(damageMap, data.getCompoundTagAt(j));
       }
 
@@ -145,16 +146,13 @@ public class DamageXpHandler implements IDamageXp, ICapabilitySerializable<NBTTa
     }
   }
 
-  @SuppressWarnings("ConstantConditions")
   @Override
-  public boolean hasCapability(@Nonnull Capability<?> capability, @Nullable EnumFacing facing) {
+  public boolean hasCapability(Capability<?> capability, @Nullable EnumFacing facing) {
     return capability == CapabilityDamageXp.CAPABILITY;
   }
 
-  @SuppressWarnings("unchecked")
   @Override
-  public <T> T getCapability(@Nonnull Capability<T> capability, @Nullable EnumFacing facing) {
-    //noinspection ConstantConditions
+  public <T> T getCapability(Capability<T> capability, @Nullable EnumFacing facing) {
     if(capability == CapabilityDamageXp.CAPABILITY) {
       return (T) this;
     }

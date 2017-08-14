@@ -10,7 +10,7 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 import slimeknights.toolleveling.TinkerToolLeveling;
 
 public class ConfigSync {
-  @SuppressWarnings("unused")
+
   @SubscribeEvent
   @SideOnly(Side.SERVER)
   public void playerLoggedIn(PlayerEvent.PlayerLoggedInEvent event) {
@@ -19,4 +19,5 @@ public class ConfigSync {
       TinkerToolLeveling.networkWrapper.network.sendTo(packet, (EntityPlayerMP) event.player);
     }
   }
+
 }

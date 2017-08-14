@@ -9,32 +9,38 @@ import net.minecraftforge.fml.common.event.FMLPostInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLServerStartingEvent;
 
+import java.io.File;
+
 import slimeknights.mantle.network.NetworkWrapper;
 import slimeknights.toolleveling.capability.CapabilityDamageXp;
 import slimeknights.toolleveling.config.Config;
 import slimeknights.toolleveling.config.ConfigSync;
 import slimeknights.toolleveling.config.ConfigSyncPacket;
+import slimeknights.toolleveling.debug.CommandLevelTool;
 
-@SuppressWarnings("WeakerAccess")
 @Mod(modid = TinkerToolLeveling.MODID,
-    version = TinkerToolLeveling.VERSION
+    version = TinkerToolLeveling.VERSION,
+    name = "TinkerToolLeveling",
+    dependencies = "required-after:forge@[14.21.1.2443,);"
+                   + "required-after:mantle@[1.12-1.3.1,);"
+                   + "required-after:tconstruct@[1.12-2.7.0,)",
+    acceptedMinecraftVersions = MinecraftForge.MC_VERSION
 )
 public class TinkerToolLeveling {
+
   public static final String MODID = "tinkertoolleveling";
   public static final String VERSION = "${version}";
 
-  @SuppressWarnings("unused")
   @SidedProxy(clientSide = "slimeknights.toolleveling.CommonProxy", serverSide = "slimeknights.toolleveling.CommonProxy")
   public static CommonProxy proxy;
 
   public static NetworkWrapper networkWrapper;
 
-  public static final ModToolLeveling modToolLeveling = new ModToolLeveling();
+  public static ModToolLeveling modToolLeveling = new ModToolLeveling();
 
-  @SuppressWarnings("unused")
   @EventHandler
   public void preInit(FMLPreInitializationEvent event) {
-    Config.load(event);
+    Config.INSTANCE.load(new File(event.getModConfigurationDirectory(), "TinkerToolLeveling.cfg"));
 
     networkWrapper = new NetworkWrapper("tinkerlevel" + ":sync");
     networkWrapper.registerPacketClient(ConfigSyncPacket.class);
@@ -46,15 +52,10 @@ public class TinkerToolLeveling {
     Config.INSTANCE.save();
   }
 
-  @SuppressWarnings("unused")
   @EventHandler
   public void init(FMLInitializationEvent event) {
-    /* Need this here, because preInit doesn't guarantee that TTL will
-     * be called after TC. If not, the list of tools is empty.         */
-    Config.syncConfig();
   }
 
-  @SuppressWarnings("unused")
   @EventHandler
   public void postInit(FMLPostInitializationEvent event) {
     if(event.getSide().isServer()) {
@@ -62,9 +63,9 @@ public class TinkerToolLeveling {
     }
   }
 
-  @SuppressWarnings("unused")
   @EventHandler
   public void serverStart(FMLServerStartingEvent event) {
     event.registerServerCommand(new CommandLevelTool());
   }
+
 }

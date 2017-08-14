@@ -18,9 +18,10 @@ import slimeknights.tconstruct.library.utils.TinkerUtil;
 import slimeknights.toolleveling.config.Config;
 
 public final class EventHandler {
-  public static final EventHandler INSTANCE = new EventHandler();
 
-  @SuppressWarnings("unused")
+  public static EventHandler INSTANCE = new EventHandler();
+
+
   @SubscribeEvent
   public void onToolBuild(TinkerToolEvent.OnItemBuilding event) {
     // we build a dummy tool tag to get the base modifier amount, unchanged by traits
@@ -50,7 +51,6 @@ public final class EventHandler {
     }
   }
 
-  @SuppressWarnings("unused")
   @SideOnly(Side.CLIENT)
   @SubscribeEvent
   public void onTooltip(ItemTooltipEvent event) {

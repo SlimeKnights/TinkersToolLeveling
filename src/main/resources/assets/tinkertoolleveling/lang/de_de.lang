@@ -1,7 +1,0 @@
-tooltip.level=Stufe
-tooltip.xp=EP
-
-message.levelup=%s erreicht Stufe %s
-
-message.command.help=/levelupTool während ein TinkerTool in der Hand gehalten wird
-message.command.exception=kein TinkerTool in der Hand
