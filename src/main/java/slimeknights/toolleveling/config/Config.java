@@ -15,23 +15,23 @@ public class Config extends AbstractConfig {
   public void load(File file) {
     ConfigFile.init();
 
-    configFile = this.load(new ConfigFile(file), ConfigFile.class);
+    //configFile = this.load(new ConfigFile(file), ConfigFile.class);
   }
 
   public static int getBaseXpForTool(Item item) {
-    ConfigFile.ToolXP toolXP = INSTANCE.configFile.toolxp;
-    return toolXP.baseXpForTool.getOrDefault(item, toolXP.defaultBaseXP);
+    //ConfigFile.ToolXP toolXP = INSTANCE.configFile.toolxp;
+    return 500;//toolXP.baseXpForTool.getOrDefault(item, toolXP.defaultBaseXP);
   }
 
   public static float getLevelMultiplier() {
-    return INSTANCE.configFile.toolxp.levelMultiplier;
+    return 2f;//INSTANCE.configFile.toolxp.levelMultiplier;
   }
 
   public static int getStartingModifiers() {
-    return INSTANCE.configFile.general.newToolMinModifiers;
+    return 3;//INSTANCE.configFile.general.newToolMinModifiers;
   }
 
   public static boolean canLevelUp(int currentLevel) {
-    return INSTANCE.configFile.general.maximumLevels < 0 || INSTANCE.configFile.general.maximumLevels >= currentLevel;
+    return true;//INSTANCE.configFile.general.maximumLevels < 0 || INSTANCE.configFile.general.maximumLevels >= currentLevel;
   }
 }

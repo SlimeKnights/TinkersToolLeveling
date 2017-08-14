@@ -18,7 +18,7 @@ buildscript {
         }
     }
     dependencies {
-        classpath 'net.minecraftforge.gradle:ForgeGradle:2.2-SNAPSHOT'
+        classpath 'net.minecraftforge.gradle:ForgeGradle:2.3-SNAPSHOT'
     }
 }
 
@@ -158,7 +158,7 @@ task("uploadJars", dependsOn:"build") {
             repositories {
 		    	if(project.hasProperty("local_maven"))
 			    {
-                    mavenDeployer {
+                    repositories.mavenDeployer {
                         repository(url: "file://${local_maven}")
 				    }
                 }
