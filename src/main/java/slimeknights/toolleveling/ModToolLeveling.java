@@ -13,7 +13,6 @@ import net.minecraftforge.event.entity.living.LivingAttackEvent;
 import net.minecraftforge.event.entity.living.LivingHurtEvent;
 import net.minecraftforge.fml.common.eventhandler.EventPriority;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
-
 import slimeknights.tconstruct.library.events.TinkerToolEvent;
 import slimeknights.tconstruct.library.modifiers.ModifierAspect;
 import slimeknights.tconstruct.library.modifiers.ModifierTrait;
@@ -109,7 +108,7 @@ public class ModToolLeveling extends ModifierTrait {
     if(!event.isCanceled()) {
       return;
     }
-    if(event.getSource().isUnblockable() || !event.getSource().isProjectile() || event.getSource().getSourceOfDamage() == null) {
+    if(event.getSource().isUnblockable() || !event.getSource().isProjectile() || event.getSource().getTrueSource() == null) {
       return;
     }
     // hit entity is a player?

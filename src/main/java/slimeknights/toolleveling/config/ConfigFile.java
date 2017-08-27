@@ -1,90 +1,59 @@
 package slimeknights.toolleveling.config;
 
-import com.google.common.collect.Sets;
-
-import net.minecraft.item.Item;
-
-import java.io.File;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Set;
-
-import slimeknights.mantle.config.AbstractConfigFile;
-import slimeknights.mantle.configurate.objectmapping.Setting;
-import slimeknights.mantle.configurate.objectmapping.serialize.ConfigSerializable;
-import slimeknights.tconstruct.library.TinkerRegistry;
-
 import static slimeknights.tconstruct.tools.harvest.TinkerHarvestTools.excavator;
 import static slimeknights.tconstruct.tools.harvest.TinkerHarvestTools.hammer;
 import static slimeknights.tconstruct.tools.harvest.TinkerHarvestTools.lumberAxe;
 import static slimeknights.tconstruct.tools.harvest.TinkerHarvestTools.scythe;
 
-@ConfigSerializable
-public class ConfigFile extends AbstractConfigFile {
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Set;
 
-  private final static int CONFIG_VERSION = 1;
+import com.google.common.collect.Sets;
 
-  @Setting
-  General general = new General();
-  @Setting
-  ToolXP toolxp = new ToolXP();
+import net.minecraft.item.Item;
+import slimeknights.tconstruct.library.TinkerRegistry;
+import slimeknights.toolleveling.TinkerToolLeveling;
 
-  public ConfigFile() {
-  }
+@net.minecraftforge.common.config.Config(modid = TinkerToolLeveling.MODID)
+public class ConfigFile {
+	
+	public static General general = new General();
+	public static ToolXP toolxp = new ToolXP();
+	
+	static {
+		TinkerRegistry.getTools().stream().filter(tool -> !toolxp.baseXpForTool.containsKey(tool)).forEach(tool -> {
+			toolxp.baseXpForTool.put(tool, getDefaultXp(tool));
+		});
+	}
 
-  public ConfigFile(File file) {
-    super(file);
-  }
+	public static int getDefaultXp(Item item) {
+		Set<Item> aoeTools = Sets.newHashSet(hammer, excavator, lumberAxe);
+		if (scythe != null) {
+			aoeTools.add(scythe);
+		}
 
-  @Override
-  public int getConfigVersion() {
-    return CONFIG_VERSION;
-  }
+		if (aoeTools.contains(item)) {
+			return 9 * toolxp.baseXpForTool.getOrDefault(item, 500);
+		}
+		return toolxp.baseXpForTool.getOrDefault(item, 500);
+	}
 
-  @Override
-  public void insertDefaults() {
-    clearNeedsSaving();
-// fill in defaults for missing entries
-    TinkerRegistry.getTools().stream()
-                  .filter(tool -> !toolxp.baseXpForTool.containsKey(tool))
-                  .forEach(tool -> {
-                    toolxp.baseXpForTool.put(tool, getDefaultXp(tool));
-                    setNeedsSaving();
-                  });
-  }
+	static class General {
+		@net.minecraftforge.common.config.Config.Comment("Reduces the amount of modifiers a newly build tool gets if the value is lower than the regular amount of modifiers the tool would have")
+		public int newToolMinModifiers = 3;
 
-  private int getDefaultXp(Item item) {
-    Set<Item> aoeTools = Sets.newHashSet(hammer, excavator, lumberAxe);
-    if(scythe != null) {
-      aoeTools.add(scythe);
-    }
+		@net.minecraftforge.common.config.Config.Comment("Maximum achievable levels. If set to 0 or lower there is no upper limit")
+		public int maximumLevels = -1;
+	}
+	
+	static class ToolXP {
+		@net.minecraftforge.common.config.Config.Comment("Base XP used when no more specific entry is present for the tool")
+		public int defaultBaseXP = 500;
 
-    if(aoeTools.contains(item)) {
-      return 9 * toolxp.defaultBaseXP;
-    }
-    return toolxp.defaultBaseXP;
-  }
+		@net.minecraftforge.common.config.Config.Comment("Base XP for each of the listed tools")
+		public Map<Item, Integer> baseXpForTool = new HashMap<>();
 
-
-
-  @ConfigSerializable
-  static class General {
-
-    @Setting(comment = "Reduces the amount of modifiers a newly build tool gets if the value is lower than the regular amount of modifiers the tool would have")
-    public int newToolMinModifiers = 3;
-
-    @Setting(comment = "Maximum achievable levels. If set to 0 or lower there is no upper limit")
-    public int maximumLevels = -1;
-  }
-
-  @ConfigSerializable
-  static class ToolXP {
-    @Setting(comment = "Base XP used when no more specific entry is present for the tool")
-    public int defaultBaseXP = 500;
-
-    @Setting(comment = "Base XP for each of the listed tools")
-    public Map<Item, Integer> baseXpForTool = new HashMap<>();
-
-    public float levelMultiplier = 2f;
-  }
+		public float levelMultiplier = 2f;
+	}
 }

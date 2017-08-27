@@ -1,13 +1,12 @@
 package slimeknights.toolleveling;
 
+import java.awt.Color;
+import java.util.List;
+
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.text.TextFormatting;
 import net.minecraft.util.text.translation.I18n;
-
-import java.awt.*;
-import java.util.List;
-
 import slimeknights.tconstruct.library.client.CustomFontColor;
 import slimeknights.tconstruct.library.utils.TinkerUtil;
 import slimeknights.toolleveling.config.Config;
