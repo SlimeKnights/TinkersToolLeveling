@@ -5,6 +5,8 @@ import com.google.common.collect.Lists;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraftforge.event.entity.player.ItemTooltipEvent;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
 
 import java.util.List;
 
@@ -49,6 +51,7 @@ public final class EventHandler {
     }
   }
 
+  @SideOnly(Side.CLIENT)
   @SubscribeEvent
   public void onTooltip(ItemTooltipEvent event) {
     Tooltips.addTooltips(event.getItemStack(), event.getToolTip());
