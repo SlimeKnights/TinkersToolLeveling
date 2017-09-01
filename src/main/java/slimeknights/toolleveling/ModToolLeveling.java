@@ -109,7 +109,7 @@ public class ModToolLeveling extends ModifierTrait {
     if(!event.isCanceled()) {
       return;
     }
-    if(event.getSource().isUnblockable() || !event.getSource().isProjectile() || event.getSource().getSourceOfDamage() == null) {
+    if(event.getSource().isUnblockable() || !event.getSource().isProjectile() || event.getSource().getTrueSource() == null) {
       return;
     }
     // hit entity is a player?
