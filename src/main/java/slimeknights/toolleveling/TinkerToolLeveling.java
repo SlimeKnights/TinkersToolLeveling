@@ -21,10 +21,10 @@ import slimeknights.toolleveling.debug.CommandLevelTool;
 @Mod(modid = TinkerToolLeveling.MODID,
     version = TinkerToolLeveling.VERSION,
     name = "TinkerToolLeveling",
-    dependencies = "required-after:forge@[13.20.0.2296,);"
-                   + "required-after:mantle@[1.11.2-1.2.0,);"
-                   + "required-after:tconstruct@[1.11.2-2.7.0,)",
-    acceptedMinecraftVersions = "1.11.2"
+    dependencies = "required-after:forge@[14.21.1.2410,);"
+                   + "required-after:mantle@[1.12-1.3.1,);"
+                   + "required-after:tconstruct@[1.12-2.7.1,)",
+    acceptedMinecraftVersions = "[1.12,1.13)"
 )
 public class TinkerToolLeveling {
 
