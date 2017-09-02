@@ -21,7 +21,6 @@ public final class EventHandler {
 
   public static EventHandler INSTANCE = new EventHandler();
 
-  @SideOnly(Side.CLIENT)
   @SubscribeEvent
   public void onToolBuild(TinkerToolEvent.OnItemBuilding event) {
     // we build a dummy tool tag to get the base modifier amount, unchanged by traits
@@ -51,6 +50,7 @@ public final class EventHandler {
     }
   }
 
+  @SideOnly(Side.CLIENT)
   @SubscribeEvent
   public void onTooltip(ItemTooltipEvent event) {
     Tooltips.addTooltips(event.getItemStack(), event.getToolTip());
