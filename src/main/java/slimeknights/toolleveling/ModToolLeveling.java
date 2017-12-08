@@ -1,12 +1,14 @@
 package slimeknights.toolleveling;
 
 import net.minecraft.block.state.IBlockState;
+import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.math.MathHelper;
 import net.minecraft.world.World;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.entity.living.LivingAttackEvent;
@@ -14,11 +16,18 @@ import net.minecraftforge.event.entity.living.LivingHurtEvent;
 import net.minecraftforge.fml.common.eventhandler.EventPriority;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 
+import javax.annotation.Nullable;
+
+import slimeknights.tconstruct.library.entity.EntityProjectileBase;
 import slimeknights.tconstruct.library.events.TinkerToolEvent;
 import slimeknights.tconstruct.library.modifiers.ModifierAspect;
 import slimeknights.tconstruct.library.modifiers.ModifierTrait;
+import slimeknights.tconstruct.library.modifiers.ProjectileModifierTrait;
 import slimeknights.tconstruct.library.modifiers.TinkerGuiException;
 import slimeknights.tconstruct.library.tinkering.TinkersItem;
+import slimeknights.tconstruct.library.tools.ProjectileLauncherNBT;
+import slimeknights.tconstruct.library.tools.ranged.BowCore;
+import slimeknights.tconstruct.library.traits.IProjectileTrait;
 import slimeknights.tconstruct.library.utils.TagUtil;
 import slimeknights.tconstruct.library.utils.Tags;
 import slimeknights.tconstruct.library.utils.TinkerUtil;
@@ -28,7 +37,7 @@ import slimeknights.tconstruct.tools.melee.TinkerMeleeWeapons;
 import slimeknights.toolleveling.capability.CapabilityDamageXp;
 import slimeknights.toolleveling.config.Config;
 
-public class ModToolLeveling extends ModifierTrait {
+public class ModToolLeveling extends ProjectileModifierTrait {
 
   public ModToolLeveling() {
     super("toolleveling", 0xffffff);
@@ -194,4 +203,18 @@ public class ModToolLeveling extends ModifierTrait {
     return new ToolLevelNBT(modifierNBT);
   }
 
+  @Override
+  public void afterHit(EntityProjectileBase projectile, World world, ItemStack ammoStack, EntityLivingBase attacker, Entity target, double impactSpeed) {
+    if(impactSpeed > 0.4f && attacker instanceof EntityPlayer) {
+      ItemStack launcher = projectile.tinkerProjectile.getLaunchingStack();
+      if(launcher.getItem() instanceof BowCore) {
+        double drawTime = ((BowCore) launcher.getItem()).getDrawTime();
+        double drawSpeed = ProjectileLauncherNBT.from(launcher).drawSpeed;
+        double drawTimeInSeconds = 1d / (20d * drawSpeed/drawTime);
+        // we award 5 xp per 1s draw time
+        int xp = MathHelper.ceil((5d * drawTimeInSeconds));
+        this.addXp(launcher, xp, (EntityPlayer) attacker);
+      }
+    }
+  }
 }
