@@ -44,7 +44,7 @@ public class ConfigFile extends AbstractConfigFile {
   @Override
   public void insertDefaults() {
     clearNeedsSaving();
-// fill in defaults for missing entries
+    // fill in defaults for missing entries
     TinkerRegistry.getTools().stream()
                   .filter(tool -> !toolxp.baseXpForTool.containsKey(tool))
                   .forEach(tool -> {

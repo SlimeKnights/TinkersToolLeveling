@@ -1,6 +1,8 @@
 package slimeknights.toolleveling;
 
+import net.minecraft.item.Item;
 import net.minecraftforge.common.MinecraftForge;
+import net.minecraftforge.event.RegistryEvent;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.Mod.EventHandler;
 import net.minecraftforge.fml.common.SidedProxy;
@@ -8,6 +10,8 @@ import net.minecraftforge.fml.common.event.FMLInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPostInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLServerStartingEvent;
+import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
+import net.minecraftforge.registries.IForgeRegistry;
 
 import java.io.File;
 
@@ -37,27 +41,29 @@ public class TinkerToolLeveling {
   public static NetworkWrapper networkWrapper;
 
   public static ModToolLeveling modToolLeveling = new ModToolLeveling();
+  private File modConfigurationDirectory;
 
   @EventHandler
   public void preInit(FMLPreInitializationEvent event) {
-    Config.INSTANCE.load(new File(event.getModConfigurationDirectory(), "TinkerToolLeveling.cfg"));
-
+    modConfigurationDirectory = event.getModConfigurationDirectory();
     networkWrapper = new NetworkWrapper("tinkerlevel" + ":sync");
     networkWrapper.registerPacketClient(ConfigSyncPacket.class);
 
     CapabilityDamageXp.register();
-    MinecraftForge.EVENT_BUS.register(slimeknights.toolleveling.EventHandler.INSTANCE);
-    MinecraftForge.EVENT_BUS.register(EntityXpHandler.INSTANCE);
 
+    MinecraftForge.EVENT_BUS.register(this);
+  }
+
+  @SubscribeEvent
+  protected void registerTools(RegistryEvent.Register<Item> event) {
+    Config.INSTANCE.load(new File(modConfigurationDirectory, "TinkerToolLeveling.cfg"));
     Config.INSTANCE.save();
   }
 
   @EventHandler
-  public void init(FMLInitializationEvent event) {
-  }
-
-  @EventHandler
   public void postInit(FMLPostInitializationEvent event) {
+    MinecraftForge.EVENT_BUS.register(slimeknights.toolleveling.EventHandler.INSTANCE);
+    MinecraftForge.EVENT_BUS.register(EntityXpHandler.INSTANCE);
     if(event.getSide().isServer()) {
       MinecraftForge.EVENT_BUS.register(new ConfigSync());
     }
