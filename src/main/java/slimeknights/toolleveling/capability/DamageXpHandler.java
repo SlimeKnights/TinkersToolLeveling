@@ -113,7 +113,7 @@ public class DamageXpHandler implements IDamageXp, ICapabilitySerializable<NBTTa
     NBTTagCompound tag = new NBTTagCompound();
 
     NBTTagCompound itemTag = stack.writeToNBT(new NBTTagCompound());
-    tag.setTag(TAG_ITEM, itemTag);
+    tag.setTag(TAG_ITEM, itemTag.copy());
     tag.setFloat(TAG_DAMAGE, damage);
 
     return tag;
