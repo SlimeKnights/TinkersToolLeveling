@@ -108,6 +108,13 @@ public class ModToolLeveling extends ProjectileModifierTrait {
   }
 
   @SubscribeEvent
+  public void onScythe(TinkerToolEvent.OnScytheHarvest event) {
+    if(!event.isCanceled()) {
+      addXp(event.itemStack, 1, event.player);
+    }
+  }
+
+  @SubscribeEvent
   public void onPath(TinkerToolEvent.OnShovelMakePath event) {
     addXp(event.itemStack, 1, event.player);
   }
