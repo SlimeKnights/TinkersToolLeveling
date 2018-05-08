@@ -1,0 +1,31 @@
+tooltip.level=Niveau
+tooltip.xp=Expérience
+
+tooltip.level.0=Comme neuf
+tooltip.level.1=Maladroit
+tooltip.level.2=À l'aise
+tooltip.level.3=Habitué
+tooltip.level.4=Expert
+tooltip.level.5=Spécialiste
+tooltip.level.6=Maître
+tooltip.level.7=Grand maître
+tooltip.level.8=Héroïque
+tooltip.level.9=Légendaire
+tooltip.level.10=Divin
+tooltip.level.11=Impressionnant
+tooltip.level.19=MoxieGrrl
+tooltip.level.42=boni
+tooltip.level.66=Jadedcat
+tooltip.level.99=Hacker
+
+message.levelup.2=Vous commencez à vous sentir à l'aise en manipulant le %s
+message.levelup.3=Vous êtes maintenant habitué au poids du %s
+message.levelup.4=Vous êtes devenu un expert de la manipulation du %s
+message.levelup.5=Vous êtes maintenant un spécialiste de l'utilisation du %s !
+message.levelup.6=Vous avez maîtrisé le %s !
+message.levelup.7=Vous avez grandement maîtrisé le %s !
+message.levelup.8=Vous sentez que vous pouvez accomplir de grandes choses avec votre %s !
+message.levelup.9=Vous et votre %s êtes des légendes vivantes !
+message.levelup.10=Aucun dieu ne pourrait faire obstacle à vous et votre %s !
+message.levelup.11=Votre %s est tout simplement impressionnant.
+message.levelup.generic=Votre %s a atteint le niveau %s
