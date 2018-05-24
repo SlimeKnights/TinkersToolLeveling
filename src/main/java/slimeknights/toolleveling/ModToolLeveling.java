@@ -18,12 +18,10 @@ import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 
 import javax.annotation.Nullable;
 
+import slimeknights.tconstruct.library.TinkerRegistry;
 import slimeknights.tconstruct.library.entity.EntityProjectileBase;
 import slimeknights.tconstruct.library.events.TinkerToolEvent;
-import slimeknights.tconstruct.library.modifiers.ModifierAspect;
-import slimeknights.tconstruct.library.modifiers.ModifierTrait;
-import slimeknights.tconstruct.library.modifiers.ProjectileModifierTrait;
-import slimeknights.tconstruct.library.modifiers.TinkerGuiException;
+import slimeknights.tconstruct.library.modifiers.*;
 import slimeknights.tconstruct.library.tinkering.TinkersItem;
 import slimeknights.tconstruct.library.tools.ProjectileLauncherNBT;
 import slimeknights.tconstruct.library.tools.ranged.BowCore;
@@ -36,6 +34,8 @@ import slimeknights.tconstruct.library.utils.ToolHelper;
 import slimeknights.tconstruct.tools.melee.TinkerMeleeWeapons;
 import slimeknights.toolleveling.capability.CapabilityDamageXp;
 import slimeknights.toolleveling.config.Config;
+
+import java.util.List;
 
 public class ModToolLeveling extends ProjectileModifierTrait {
 
@@ -169,7 +169,27 @@ public class ModToolLeveling extends ProjectileModifierTrait {
     if(data.xp >= xpForLevelup) {
       data.xp -= xpForLevelup;
       data.level++;
-      data.bonusModifiers++;
+      
+      List<IModifier> modifiers = (List<IModifier>) TinkerRegistry.getAllModifiers();
+      int modifierIndex;
+      boolean applied = false;
+      do {
+        modifierIndex = random.nextInt(modifiers.size());
+        
+        IModifier modifier = modifiers.get(modifierIndex);
+        try {
+          if (modifier.canApply(tool, tool)) {
+            modifier.apply(tool);
+            applied = true;
+          } else {
+            modifiers.remove(modifierIndex);
+          }
+        } catch (TinkerGuiException e) {
+          e.printStackTrace();
+        }
+      } while (!applied);
+      
+      //data.bonusModifiers++;
       leveledUp = true;
     }
 
