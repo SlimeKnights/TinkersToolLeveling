@@ -21,6 +21,7 @@ import slimeknights.toolleveling.config.Config;
 import slimeknights.toolleveling.config.ConfigSync;
 import slimeknights.toolleveling.config.ConfigSyncPacket;
 import slimeknights.toolleveling.debug.CommandLevelTool;
+import slimeknights.toolleveling.debug.CommandModifierDump;
 
 @Mod(modid = TinkerToolLeveling.MODID,
     version = TinkerToolLeveling.VERSION,
@@ -72,6 +73,7 @@ public class TinkerToolLeveling {
   @EventHandler
   public void serverStart(FMLServerStartingEvent event) {
     event.registerServerCommand(new CommandLevelTool());
+    event.registerServerCommand(new CommandModifierDump());
   }
 
 }
