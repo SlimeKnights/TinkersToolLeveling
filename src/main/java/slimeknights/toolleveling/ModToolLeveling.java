@@ -175,11 +175,16 @@ public class ModToolLeveling extends ProjectileModifierTrait {
       int modifierIndex;
       boolean applied = false;
       do {
-        modifierIndex = random.nextInt(modifiers.size() + 1);
-        
-        if (modifierIndex == modifiers.size()) {
-          data.bonusModifiers++;
+        if (Config.modifierAndFree()) {
+          modifierIndex = random.nextInt(modifiers.size());
         } else {
+          modifierIndex = random.nextInt(modifiers.size() + 1);
+        }
+        
+        if (modifierIndex == modifiers.size() || Config.modifierAndFree()) {
+          data.bonusModifiers++;
+        }
+        if (modifierIndex != modifiers.size() || Config.modifierAndFree()){
           IModifier modifier = modifiers.get(modifierIndex);
           
           int freeModifiers = ToolHelper.getFreeModifiers(tool);
