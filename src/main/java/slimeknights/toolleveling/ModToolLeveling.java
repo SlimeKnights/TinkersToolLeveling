@@ -171,40 +171,45 @@ public class ModToolLeveling extends ProjectileModifierTrait {
       data.xp -= xpForLevelup;
       data.level++;
       
-      List<IModifier> modifiers = Config.getModifiers(tool.getItem());
-      int modifierIndex;
-      boolean applied = false;
-      do {
-        if (Config.modifierAndFree()) {
-          modifierIndex = random.nextInt(modifiers.size());
-        } else {
-          modifierIndex = random.nextInt(modifiers.size() + 1);
-        }
-        
-        if (modifierIndex == modifiers.size() || Config.modifierAndFree()) {
-          data.bonusModifiers++;
-        }
-        if (modifierIndex != modifiers.size() || Config.modifierAndFree()){
-          IModifier modifier = modifiers.get(modifierIndex);
-          
-          int freeModifiers = ToolHelper.getFreeModifiers(tool);
-          
-          try {
-            if (modifier.canApply(tool, tool)) {
-              modifier.apply(tool);
-              applied = true;
-            } else {
+      if (Config.randomModifiersEnabled()) {
+  
+        List<IModifier> modifiers = Config.getModifiers(tool.getItem());
+        int modifierIndex;
+        boolean applied = false;
+        do {
+          if (Config.modifierAndFree()) {
+            modifierIndex = random.nextInt(modifiers.size());
+          } else {
+            modifierIndex = random.nextInt(modifiers.size() + 1);
+          }
+    
+          if (modifierIndex == modifiers.size() || Config.modifierAndFree()) {
+            data.bonusModifiers++;
+          }
+          if (modifierIndex != modifiers.size() || Config.modifierAndFree()) {
+            IModifier modifier = modifiers.get(modifierIndex);
+      
+            int freeModifiers = ToolHelper.getFreeModifiers(tool);
+      
+            try {
+              if (modifier.canApply(tool, tool)) {
+                modifier.apply(tool);
+                applied = true;
+              } else {
+                modifiers.remove(modifierIndex);
+                continue;
+              }
+            } catch (TinkerGuiException e) {
               modifiers.remove(modifierIndex);
               continue;
             }
-          } catch (TinkerGuiException e) {
-            modifiers.remove(modifierIndex);
-            continue;
+      
+            data.bonusModifiers += freeModifiers - ToolHelper.getFreeModifiers(tool);
           }
-          
-          data.bonusModifiers += freeModifiers - ToolHelper.getFreeModifiers(tool);
-        }
-       } while (!applied && !modifiers.isEmpty());
+        } while (!applied && !modifiers.isEmpty());
+      } else {
+        data.bonusModifiers++;
+      }
   
       leveledUp = true;
     }
