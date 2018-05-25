@@ -24,6 +24,7 @@ import slimeknights.tconstruct.library.events.TinkerToolEvent;
 import slimeknights.tconstruct.library.modifiers.*;
 import slimeknights.tconstruct.library.tinkering.TinkersItem;
 import slimeknights.tconstruct.library.tools.ProjectileLauncherNBT;
+import slimeknights.tconstruct.library.tools.ToolNBT;
 import slimeknights.tconstruct.library.tools.ranged.BowCore;
 import slimeknights.tconstruct.library.traits.IProjectileTrait;
 import slimeknights.tconstruct.library.utils.TagUtil;
@@ -118,7 +119,7 @@ public class ModToolLeveling extends ProjectileModifierTrait {
   public void onPath(TinkerToolEvent.OnShovelMakePath event) {
     addXp(event.itemStack, 1, event.player);
   }
-
+  
   @SubscribeEvent(priority = EventPriority.LOWEST, receiveCanceled = true)
   public void onLivingHurt(LivingAttackEvent event) {
     // if it's cancelled it got handled by the battlesign (or something else. but it's a prerequisite.)
@@ -141,65 +142,75 @@ public class ModToolLeveling extends ProjectileModifierTrait {
     if(ToolHelper.isBroken(player.getActiveItemStack())) {
       return;
     }
-
+    
     // at this point we duplicated all the logic if the battlesign should reflect a projectile.. bleh.
     int xp = Math.max(1, Math.round(event.getAmount()));
     addXp(player.getActiveItemStack(), xp, player);
   }
-
+  
   /* XP Handling */
-
+  
   public void addXp(ItemStack tool, int amount, EntityPlayer player) {
     NBTTagList tagList = TagUtil.getModifiersTagList(tool);
     int index = TinkerUtil.getIndexInCompoundList(tagList, identifier);
     NBTTagCompound modifierTag = tagList.getCompoundTagAt(index);
-
+    
     ToolLevelNBT data = getLevelData(modifierTag);
     data.xp += amount;
-
+    
     // is max level?
-    if(!Config.canLevelUp(data.level)) {
+    if (!Config.canLevelUp(data.level)) {
       return;
     }
-
+    
     int xpForLevelup = getXpForLevelup(data.level, tool);
-
+    
     boolean leveledUp = false;
     // check for levelup
-    if(data.xp >= xpForLevelup) {
+    if (data.xp >= xpForLevelup) {
       data.xp -= xpForLevelup;
       data.level++;
       
-      List<IModifier> modifiers = (List<IModifier>) TinkerRegistry.getAllModifiers();
+      List<IModifier> modifiers = Config.getModifiers(tool.getItem());
       int modifierIndex;
       boolean applied = false;
       do {
-        modifierIndex = random.nextInt(modifiers.size());
+        modifierIndex = random.nextInt(modifiers.size() + 1);
         
-        IModifier modifier = modifiers.get(modifierIndex);
-        try {
-          if (modifier.canApply(tool, tool)) {
-            modifier.apply(tool);
-            applied = true;
-          } else {
+        if (modifierIndex == modifiers.size()) {
+          data.bonusModifiers++;
+        } else {
+          IModifier modifier = modifiers.get(modifierIndex);
+          
+          int freeModifiers = ToolHelper.getFreeModifiers(tool);
+          
+          try {
+            if (modifier.canApply(tool, tool)) {
+              modifier.apply(tool);
+              applied = true;
+            } else {
+              modifiers.remove(modifierIndex);
+              continue;
+            }
+          } catch (TinkerGuiException e) {
             modifiers.remove(modifierIndex);
+            continue;
           }
-        } catch (TinkerGuiException e) {
-          e.printStackTrace();
+          
+          data.bonusModifiers += freeModifiers - ToolHelper.getFreeModifiers(tool);
         }
-      } while (!applied);
-      
-      //data.bonusModifiers++;
+       } while (!applied && !modifiers.isEmpty());
+  
       leveledUp = true;
     }
-
+    
     data.write(modifierTag);
     //tagList.set(index, modifierTag);
     TagUtil.setModifiersTagList(tool, tagList);
-
-    if(leveledUp) {
+    
+    if (leveledUp) {
       this.apply(tool);
-      if(!player.world.isRemote) {
+      if (!player.world.isRemote) {
         // for some reason the proxy is messed up. cba to fix now
         TinkerToolLeveling.proxy.playLevelupDing(player);
         TinkerToolLeveling.proxy.sendLevelUpMessage(data.level, tool, player);
@@ -208,7 +219,7 @@ public class ModToolLeveling extends ProjectileModifierTrait {
         NBTTagCompound rootTag = TagUtil.getTagSafe(tool);
         ToolBuilder.rebuildTool(rootTag, (TinkersItem) tool.getItem());
         tool.setTagCompound(rootTag);
-      } catch(TinkerGuiException e) {
+      } catch (TinkerGuiException e) {
         // this should never happen
         e.printStackTrace();
       }
