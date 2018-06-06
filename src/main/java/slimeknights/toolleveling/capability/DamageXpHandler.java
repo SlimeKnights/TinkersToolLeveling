@@ -67,7 +67,7 @@ public class DamageXpHandler implements IDamageXp, ICapabilitySerializable<NBTTa
   }
 
   private void distributeXpToPlayerForTool(EntityPlayer player, ItemStack tool, float damage) {
-    if(player.hasCapability(CapabilityItemHandler.ITEM_HANDLER_CAPABILITY, null)) {
+    if(!tool.isEmpty() && player.hasCapability(CapabilityItemHandler.ITEM_HANDLER_CAPABILITY, null)) {
       IItemHandler itemHandler = player.getCapability(CapabilityItemHandler.ITEM_HANDLER_CAPABILITY, null);
 
       // check for identity. should work in most cases because the entity was killed without loading/unloading
