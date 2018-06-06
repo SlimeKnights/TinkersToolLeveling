@@ -1,3 +1,5 @@
+import scala.tools.nsc.io.Jar
+
 /*
  * Tinkers' Tool Leveling
  * Master build file
@@ -91,7 +93,7 @@ minecraft {
 dependencies {
     // you may put jars on which you depend on in ./libs
     // or you may define them like so..
-    deobfCompile "slimeknights.mantle:Mantle:${config.minecraft_version}-${config.mantle_version}"
+    deobfCompile "slimeknights.mantle:Mantle:${config.mantle_version}"
     deobfCompile "slimeknights:TConstruct:${config.minecraft_version}-${config.tic_version}"
     deployerJars 'org.apache.maven.wagon:wagon-ssh:2.2'
 }
