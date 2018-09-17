@@ -1,0 +1,33 @@
+# Localizated to Portuguese (Brazil) by SAMUELPV
+
+tooltip.level=Nível
+tooltip.xp=XP
+
+tooltip.level.0=Como novo
+tooltip.level.1=Desajeitado
+tooltip.level.2=Confortável
+tooltip.level.3=Acostumado
+tooltip.level.4=Perito
+tooltip.level.5=Especialista
+tooltip.level.6=Mestre
+tooltip.level.7=Grão-Mestre
+tooltip.level.8=Heróico
+tooltip.level.9=Lendário
+tooltip.level.10=Divino
+tooltip.level.11=Incrível
+tooltip.level.19=MoxieGrrl
+tooltip.level.42=boni
+tooltip.level.66=Jadedcat
+tooltip.level.99=Hacker
+
+message.levelup.2=Você começa a se sentir confortável lidando com o(a) %s
+message.levelup.3=Você agora está acostumado com o peso do(a) %s
+message.levelup.4=Você se tornou perito em lidar com o(a) %s
+message.levelup.5=Você agora é um especialista em usar o(a) %s !
+message.levelup.6=Você se tornou um mestre em usar o(a) %s!
+message.levelup.7=Você se tornou um grande mestre em usar o(a) %s!
+message.levelup.8=Você sente como se pudesse fazer milagres com o(a) seu(sua) %s!
+message.levelup.9=Você e seu(sua) %s são lendas vivas!
+message.levelup.10=Nenhum deus iria ficar no caminho de você e seu(sua) %s!
+message.levelup.11=Seu(Sua) %s está incrivelmente puro(a).
+message.levelup.generic=Seu(Sua) %s alcançou o nível %s
