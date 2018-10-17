@@ -29,7 +29,6 @@ public class Config extends AbstractConfig {
   }
 
   public static float getLevelMultiplier() {
-
     return INSTANCE.configFile.toolxp.levelMultiplier;
   }
 
