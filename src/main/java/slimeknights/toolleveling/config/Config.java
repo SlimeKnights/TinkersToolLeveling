@@ -16,6 +16,11 @@ public class Config extends AbstractConfig {
     ConfigFile.init();
 
     configFile = this.load(new ConfigFile(file), ConfigFile.class);
+    
+	if (configFile.toolxp.levelMultiplier < 2) {
+	  configFile.toolxp.levelMultiplier = 2f;
+	  configFile.setNeedsSaving();
+	}
   }
 
   public static int getBaseXpForTool(Item item) {
