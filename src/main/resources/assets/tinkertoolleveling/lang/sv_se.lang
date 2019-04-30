@@ -1,0 +1,31 @@
+tooltip.level=Nivå
+tooltip.xp=Erfarenhet
+
+tooltip.level.0=Som ny
+tooltip.level.1=Klumpig
+tooltip.level.2=Bekväm
+tooltip.level.3=Van
+tooltip.level.4=Erfaren
+tooltip.level.5=Expert
+tooltip.level.6=Mästare
+tooltip.level.7=Stormästare
+tooltip.level.8=Heroisk
+tooltip.level.9=Legendarisk
+tooltip.level.10=Gudomlig
+tooltip.level.11=Häftig
+tooltip.level.19=MoxieGrrl
+tooltip.level.42=boni
+tooltip.level.66=Jadedcat
+tooltip.level.99=Hackare
+
+message.levelup.2=Du börjar känna dig bekväm med att hantera din/ditt %s
+message.levelup.3=Du är nu van vid vikten hos din/ditt %s
+message.levelup.4=Du har blivit erfaren med att hantera din/ditt %s
+message.levelup.5=Du är nu en expert på att använda din/ditt %s!
+message.levelup.6=Du har bemästrat din/ditt %s!
+message.levelup.7=Du har storbemästrat din/ditt %s!
+message.levelup.8=Du känner att du kan utföra mäktiga dåd med din/ditt %s!
+message.levelup.9=Du och din/ditt %s är levande legender!
+message.levelup.10=Ingen gud kan stå i vägen för dig och din/ditt %s!
+message.levelup.11=Din/ditt %s är superhäftig(t).
+message.levelup.generic=Din/ditt %s har nått nivån %s
