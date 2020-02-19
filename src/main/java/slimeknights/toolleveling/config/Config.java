@@ -17,8 +17,8 @@ public class Config extends AbstractConfig {
 
     configFile = this.load(new ConfigFile(file), ConfigFile.class);
     
-	if (configFile.toolxp.levelMultiplier < 2) {
-	  configFile.toolxp.levelMultiplier = 2f;
+	if (configFile.toolxp.levelMultiplier < 1) {
+	  configFile.toolxp.levelMultiplier = 1f;
 	  configFile.setNeedsSaving();
 	}
   }
