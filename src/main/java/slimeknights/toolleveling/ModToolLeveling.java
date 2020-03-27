@@ -76,7 +76,7 @@ public class ModToolLeveling extends ProjectileModifierTrait {
   @Override
   public void afterBlockBreak(ItemStack tool, World world, IBlockState state, BlockPos pos, EntityLivingBase player, boolean wasEffective) {
     if(wasEffective && player instanceof EntityPlayer) {
-      addXp(tool, 1, (EntityPlayer) player);
+      addXp(tool, 3, (EntityPlayer) player);
     }
   }
 
