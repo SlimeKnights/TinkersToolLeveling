@@ -1,0 +1,31 @@
+tooltip.level=레벨
+tooltip.xp=XP
+
+tooltip.level.0=새 것
+tooltip.level.1=서투름
+tooltip.level.2=편함
+tooltip.level.3=익숙함
+tooltip.level.4=능숙함
+tooltip.level.5=전문가
+tooltip.level.6=숙달함
+tooltip.level.7=혼연일체
+tooltip.level.8=영웅
+tooltip.level.9=전설적
+tooltip.level.10=신적
+tooltip.level.11=어마어마함
+tooltip.level.19=MoxieGrrl
+tooltip.level.42=boni
+tooltip.level.66=Jadedcat
+tooltip.level.99=해커
+
+message.levelup.2=당신은 %s을(를) 다루는 것에 편안함을 느낍니다
+message.levelup.3=당신은 %s의 무게에 익숙해졌습니다
+message.levelup.4=당신은 %s을(를) 다루는 것에 능숙해졌습니다
+message.levelup.5=당신은 이제 %s의 전문가입니다!
+message.levelup.6=당신은 %s에 숙달했습니다!
+message.levelup.7=당신은 이제 %s와 혼연일체입니다!
+message.levelup.8=당신은 당신의 %s와 위대한 업적을 달성할 수 있을 것 같다는 기분이 듭니다!
+message.levelup.9=당신과 당신의 %s는 살아있는 전설입니다!
+message.levelup.10=어떠한 신도 당신과 %s의 길을 막을 순 없습니다!
+message.levelup.11=당신의 %s는 순수하게 어마어마합니다.
+message.levelup.generic=당신의 %s이(가) %s레벨을 달성했습니다
